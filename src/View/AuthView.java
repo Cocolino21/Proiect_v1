@@ -87,13 +87,14 @@ public class AuthView extends JFrame {
 
 
 
-           this.setTitle("Proiect_V1_Policlinici");
+
 
 
            this.setContentPane(authViewMainPanel);
-
+           this.setTitle("Proiect_V1_Policlinici");
            this.setSize(920,520);
            this.setResizable(false);
+           this.setLocationRelativeTo(null);
            this.setVisible(true);
            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        }
@@ -107,6 +108,10 @@ public class AuthView extends JFrame {
            }
 
        }
+    public void showErrorMessage(String message)
+    {
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
 
     public JTextField getUsernameField() {
         return usernameField;
