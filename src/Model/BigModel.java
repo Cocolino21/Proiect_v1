@@ -18,7 +18,7 @@ public class BigModel {
 
     public BigModel() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "?");
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "hd15mky.Mihibosti28");
         } catch(SQLException se) {
             se.printStackTrace();
         }
@@ -60,12 +60,12 @@ public class BigModel {
 
     public boolean deleteAngajatFromDB(int id_angajat) {
         try {
-            String query = "DELETE FROM `proiect_v1`.`angajat` WHERE `id_angajat` = ?";
 
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, id_angajat);
 
-            int rowsAffected = preparedStatement.executeUpdate();
+            CallableStatement callableStatement = connection.prepareCall(" CALL DeleteAngajat(?);");
+            callableStatement.setInt(1, id_angajat);
+
+            int rowsAffected = callableStatement.executeUpdate();
 
             if (rowsAffected > 0) {
                 // Successfully deleted
@@ -80,6 +80,35 @@ public class BigModel {
             return false;
         }
     }
+
+
+    public boolean insertCerereConcediu(int currentID, java.sql.Date beginDate, java.sql.Date endDate, String motiv)
+    {
+        try{
+            CallableStatement callableStatement = connection.prepareCall(" CALL InsertCerereConcediu(?, ?, ?, ?);");
+            callableStatement.setInt(1,currentID);
+            callableStatement.setDate(2, beginDate);
+            callableStatement.setDate(3, endDate);
+            callableStatement.setString(4, motiv);
+            int rowsAffected = callableStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                // Successfully inserted
+                return true;
+            } else {
+                // Insertion failed
+                return false;
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
     public ArrayList<String> getInfoForAngajat(int id_angajat)
     {
 

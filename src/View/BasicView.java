@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
 import java.awt.*;
 import java.io.IOException;
@@ -47,6 +48,10 @@ public class BasicView extends JFrame {
     protected Image pic;
 
     protected JPanel BV_RP_m1Panel;
+
+    protected JPanel BV_RP_m2Panel;
+
+    protected JPanel BV_RP_m3Panel;
     protected JLabel[] BV_orar;
     protected JLabel BV_orarPersonalLabel;
     protected JTextField[] BV_userOrarTextFields_begin = new JTextField[7];
@@ -66,6 +71,12 @@ public class BasicView extends JFrame {
     protected JXDatePicker BV_ccjf_beginDate;
     protected JXDatePicker BV_ccjf_endDate;
     protected JButton BV_ccjf_submitButton;
+    protected JTextField BV_salariuConstantTF;
+    protected Object[][] BV_salariiLuniRowData;
+    protected DefaultTableModel BV_salariiLuniTableModel;
+    protected JTable BV_salariiLuniTable;
+    protected JScrollPane BV_salariiLuniSP;
+
 
     protected void BV_beautifyButton(JButton button, Color color, Dimension dimension)
     {
@@ -104,6 +115,27 @@ public class BasicView extends JFrame {
         this.getContentPane().repaint();
     }
 
+    public void reAddToBV_RP_m2Panel()
+    {
+
+
+        BV_RP_m2Panel.setPreferredSize(new Dimension(720,520));
+        BV_rightPanel.removeAll();
+        BV_rightPanel.add(BV_RP_m2Panel,"gapx 10");
+        this.getContentPane().revalidate();
+        this.getContentPane().repaint();
+    }
+
+    public void reAddToBV_RP_m3Panel()
+    {
+        BV_RP_m3Panel.setPreferredSize(new Dimension(720,520));
+        BV_rightPanel.removeAll();
+        BV_rightPanel.add(BV_RP_m3Panel,"gapx 10");
+        this.getContentPane().revalidate();
+        this.getContentPane().repaint();
+    }
+
+
 
 
 
@@ -137,6 +169,37 @@ public class BasicView extends JFrame {
         };
         BV_RP_profilePanel.setLayout(new MigLayout("insets 0"));
         BV_RP_m1Panel = new JPanel(new MigLayout("insets 0"));
+        BV_RP_m2Panel = new JPanel(new MigLayout("insets 0"));
+        BV_RP_m2Panel.add(new JLabel("Salariu constant curent: "),"gapy 30");
+        BV_salariuConstantTF = new JTextField();
+        BV_salariuConstantTF.setPreferredSize(new Dimension(70, 30));
+        BV_salariuConstantTF.setEditable(false);
+        BV_salariuConstantTF.setEnabled(false);
+        BV_salariuConstantTF.setText(Integer.valueOf(currentAngajat.getSalariu()).toString());
+        BV_RP_m2Panel.add(BV_salariuConstantTF,"span");
+        BV_RP_m3Panel = new JPanel(new MigLayout("center, insets 0"));
+        BV_RP_m3Panel.add(new JLabel("Nu aveti acces la zona operationala!"));
+
+        BV_salariiLuniRowData = new Object[13][13];
+        String[] salariiLuni = new String[]{"Luna","Salariu"};
+
+        String[] luniileAnului = new String[]{"Ianuarie","Februarie","Martie","Aprilie","Mai","Iunie","Iulie","August","Septembrie","Octombrie","Noiembrie","Decembrie"};
+        for(int i = 0 ;i<12;i++) {
+            BV_salariiLuniRowData[i][0] = luniileAnului[i];
+            BV_salariiLuniRowData[i][1] = Integer.valueOf(currentAngajat.getSalariu()).toString();
+        }
+
+        BV_salariiLuniTableModel = new DefaultTableModel(BV_salariiLuniRowData, salariiLuni);
+        BV_salariiLuniTable = new JTable(BV_salariiLuniTableModel);
+        BV_salariiLuniTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        BV_salariiLuniTable.setDefaultEditor(Object.class, null);
+        BV_salariiLuniTable.getTableHeader().setReorderingAllowed(false);
+        BV_salariiLuniSP = new JScrollPane(BV_salariiLuniTable);
+        BV_salariiLuniSP.setAutoscrolls(true);
+        BV_salariiLuniSP.setPreferredSize(new Dimension(720,370));
+        BV_RP_m2Panel.add(BV_salariiLuniSP,"gapy 20, span");
+
+
 
         BV_profileImageButton = new JButton();
         BV_profileImageButton.setIcon(BV_profileImage);
@@ -318,6 +381,28 @@ public class BasicView extends JFrame {
     public void BV_showErrorMessage(String message)
     {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    public void BV_showSuccesMessage(String message)
+    {
+        JOptionPane.showMessageDialog(null, message, "Succes", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    public JButton getBV_ccjf_submitButton() {
+        return BV_ccjf_submitButton;
+    }
+
+
+
+    public JTextField getBV_ccjf_motivTF() {
+        return BV_ccjf_motivTF;
+    }
+
+    public JXDatePicker getBV_ccjf_beginDate() {
+        return BV_ccjf_beginDate;
+    }
+
+    public JXDatePicker getBV_ccjf_endDate() {
+        return BV_ccjf_endDate;
     }
 
     public JLabel[] getBV_orar() {

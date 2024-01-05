@@ -28,11 +28,24 @@ import java.util.Objects;
 
 public class MedicView extends BasicView {
 
+        private JPanel medicM3Panel;
 
+
+        @Override
+        public void reAddToBV_RP_m3Panel()
+        {
+            medicM3Panel.setPreferredSize(new Dimension(720,520));
+            BV_rightPanel.removeAll();
+            BV_rightPanel.add(medicM3Panel,"gapx 10");
+            this.getContentPane().revalidate();
+            this.getContentPane().repaint();
+        }
 
         public  MedicView(CurrentAngajat currentAngajat){
             super("Proiect_V1_Policlinici_Medic",currentAngajat);
-            //this.setContentPane(authViewMainPanel);
+            medicM3Panel = new JPanel(new MigLayout("insets 0"));
+            medicM3Panel.add(new JLabel("Hei ! sunt medic"));
+
 
 
         }
