@@ -3,6 +3,7 @@ package Controller;
 import Model.*;
 import View.AuthView;
 import View.MedicView;
+import View.ReceptionerView;
 import View.SuperAdminView;
 import com.formdev.flatlaf.FlatDarkLaf;
 
@@ -41,9 +42,12 @@ public class AuthController implements ActionListener {
                 MedicModel model_medic = new MedicModel();
                 model_medic.setCurrentAngajat(currentAngajat);
                 MedicController controller_medic= new MedicController(view_medic,model_medic);
-
                 break;
             case 2:
+                ReceptionerView view_receptioner = new ReceptionerView(currentAngajat);
+                ReceptionerModel model_receptioner = new ReceptionerModel();
+                model_receptioner.setCurrentAngajat(currentAngajat);
+                ReceptionerController controller_receptioner  =new ReceptionerController(view_receptioner,model_receptioner);
                 break;
 
         }
