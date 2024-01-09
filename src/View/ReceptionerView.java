@@ -9,6 +9,8 @@ import java.awt.*;
 
 public class ReceptionerView extends BasicView{
     private JPanel receptionerM3Panel;
+    private JFrame adaugaPacientFrame;
+    private JFrame adaugaProgramareFrame;
     private JButton buttonAdaugaPacient= new JButton("Adauga pacient");
     private JButton buttonAdaugaProgramare= new JButton("Adauga programare");
     private DefaultTableModel programariTableModel;
@@ -36,29 +38,43 @@ public class ReceptionerView extends BasicView{
         receptionerM3Panel.add(buttonAdaugaPacient, "span");
         receptionerM3Panel.add(buttonAdaugaProgramare, "span");
         receptionerM3Panel.add(programariSP);
+
+
+        this.adaugaPacientFrame = new JFrame("Adauga pacient");
+
+        this.adaugaProgramareFrame = new JFrame("Adauga programare");
+        adaugaProgramareFrame.add(new JLabel("adaugi programari aici"));
     }
 
-    public void updateProgramariTable()
-    {
-        String[] programari = new String[]{"id Pacient", "nume", "prenume", "data", "ora", "serviciu"};
+    public void updateProgramariTable() {
+        String[] programari = new String[]{"id Pacient", "Nume", "Prenume", "Data", "Ora", "Serviciu"};
 
-            programariTableModel = new DefaultTableModel(programariRowData,programari);
-            programariTable = new JTable(programariTableModel);
+        programariTableModel = new DefaultTableModel(programariRowData, programari);
+        programariTable = new JTable(programariTableModel);
 
-            programariTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            programariTable.setDefaultEditor(Object.class, null);
-            programariTable.getTableHeader().setReorderingAllowed(false);
-            programariTable.setColumnSelectionAllowed(false);
+        programariTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        programariTable.setDefaultEditor(Object.class, null);
+        programariTable.getTableHeader().setReorderingAllowed(false);
+        programariTable.setColumnSelectionAllowed(false);
 
-            programariSP = new JScrollPane(programariTable);
-            programariSP.setAutoscrolls(true);
-            programariSP.setPreferredSize(new Dimension(920,370));
+        programariSP = new JScrollPane(programariTable);
+        programariSP.setAutoscrolls(true);
+        programariSP.setPreferredSize(new Dimension(920, 370));
 
     }
+
 
     public Object[][] getProgramariRowData() { return programariRowData; }
     public void setProgramariRowData(Object[][] programariRowData) {
         this.programariRowData = programariRowData;
+    }
+
+    public JFrame getAdaugaProgramareFrame() {
+        return adaugaProgramareFrame;
+    }
+
+    public JFrame getAdaugaPacientFrame() {
+        return adaugaPacientFrame;
     }
 
     public JButton getButtonAdaugaPacient() { return buttonAdaugaPacient;}
