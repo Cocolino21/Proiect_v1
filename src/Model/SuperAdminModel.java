@@ -11,7 +11,7 @@ public class SuperAdminModel extends BigModel {
     public SuperAdminModel()
     {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "?");
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "");
         } catch(SQLException se) {
             se.printStackTrace();
         }

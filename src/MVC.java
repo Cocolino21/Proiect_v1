@@ -17,8 +17,6 @@ public class MVC {
     public static void main(String[] args){
         FlatDarkLaf.setup();
         AuthView av = new AuthView();
-        av.getUsernameField().setText("miki_cont");
-        av.getPasswordField().setText("miki_parola");
 
         AuthCheck ac = new AuthCheck();
         AuthController controller = new AuthController(ac, (AuthView) av);

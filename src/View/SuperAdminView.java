@@ -211,8 +211,6 @@ public class SuperAdminView extends JFrame {
         centreWrapper.add(centreSP);
         backButton.setVisible(true);
 
-
-
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
     }
