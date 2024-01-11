@@ -17,8 +17,6 @@ public class ReceptionerController extends BasicController implements ActionList
         super(view, model);
         rv = (ReceptionerView) view;
         rm = (ReceptionerModel) model;
-        rv.getButtonAdaugaProgramare().addActionListener(this);
-        rv.getButtonAdaugaPacient().addActionListener(this);
     }
 
 
