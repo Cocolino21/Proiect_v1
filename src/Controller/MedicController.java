@@ -28,7 +28,7 @@ public class MedicController extends BasicController implements ActionListener {
         mm = model;
         mv.getRaportButton().addActionListener(this);
         mv.getIstoricButton().addActionListener(this);
-
+        mv.getInvestigatiiButton().addActionListener(this);
     }
 
     @Override
@@ -39,8 +39,12 @@ public class MedicController extends BasicController implements ActionListener {
             mv.getRaportFrame().setVisible(true);
         }
         if (e.getSource() == mv.getIstoricButton()){
-            mv.getIstoricPacientFrame().setVisible(true);
+            mv.getIstoricFrame().setVisible(true);
         }
+        if (e.getSource() == mv.getInvestigatiiButton()){
+            mv.getInvestigatiiFrame().setVisible(true);
+        }
+
     }
 
 }
