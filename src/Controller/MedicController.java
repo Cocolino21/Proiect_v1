@@ -23,7 +23,7 @@ public class MedicController extends BasicController implements ActionListener {
 
     public MedicController(MedicView view, MedicModel model) {
         super(view,model);
-            ;
+
         mv = view;
         mm = model;
         mv.getRaportButton().addActionListener(this);
