@@ -222,6 +222,7 @@ public class MedicView extends BasicView {
 
         istoricSP = new JScrollPane(istoricTable);
 
+
         istoricSP.setAutoscrolls(true);
         istoricSP.setPreferredSize(new Dimension(700, 400));
     }
