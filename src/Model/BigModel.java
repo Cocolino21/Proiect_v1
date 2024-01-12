@@ -3,9 +3,11 @@ import Controller.HashIt;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class BigModel {
     private Connection connection;
@@ -47,6 +49,171 @@ public class BigModel {
 
 
 
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return null;
+        }
+    }
+
+
+    public Object[][] getAngajati(int centru_id)
+    {
+
+        Object[][] entries;
+        try {
+            CallableStatement callableStatement = connection.prepareCall("{CALL GetAngajatiByCentruId(?, ?)}");
+            callableStatement.setInt(1, centru_id);
+            callableStatement.registerOutParameter(2, Types.INTEGER);
+            callableStatement.execute();
+            ResultSet resultSet = callableStatement.getResultSet();
+            int rowCount = callableStatement.getInt(2);
+
+            int k=0;
+            entries = new Object[rowCount][9];
+            while (resultSet.next()) {
+
+                entries[k][0] =  resultSet.getInt("id_angajat");
+                entries[k][1] = resultSet.getString("nume");
+                entries[k][2] = resultSet.getString("prenume");
+                String functie = resultSet.getString("functie");
+                entries[k][3] = functie;
+                entries[k][4] = getDeptForFunctie(functie);
+                entries[k][5] = resultSet.getString("username");
+                entries[k][6] = resultSet.getString("numar_contract");
+                entries[k][7] = resultSet.getString("nr_telefon");
+                entries[k][8] = resultSet.getInt("id_centru");
+                //   System.out.println(entries[k][1].toString());
+                k++;
+            }
+
+            return entries;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return null;
+        }
+    }
+
+
+    public ArrayList<String> getPacientNumePrenumeFromId(int id_pacient)
+    {
+        ArrayList<String> temp = new ArrayList<String>();
+        try {
+            String query = "SELECT * FROM `proiect_v1`.`pacient` WHERE `id_pacient` = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id_pacient);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                temp.add(resultSet.getString("nume"));
+                temp.add(resultSet.getString("prenume"));
+
+            }
+            return temp;
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return null;
+        }
+    }
+
+
+    public void sortTable(JTable table, int columnIndex) {
+        TableRowSorter<TableModel> sorter = (TableRowSorter<TableModel>) table.getRowSorter();
+
+        if (sorter == null) {
+            sorter = new TableRowSorter<>(table.getModel());
+            table.setRowSorter(sorter);
+        }
+
+        // Sort by the specified column index
+        sorter.setSortKeys(Collections.singletonList(new RowSorter.SortKey(columnIndex, SortOrder.ASCENDING)));
+
+        // Apply the sorting to the table
+        sorter.sort();
+    }
+
+
+
+    public Object[][] getProgramari(int id_angajat) {
+        Object[][] entries;
+        try {
+            CallableStatement callableStatement = connection.prepareCall("{CALL SelectProgramareByReceptioner(?, ?)}");
+            callableStatement.setInt(1, id_angajat);
+            callableStatement.registerOutParameter(2, Types.INTEGER);
+            callableStatement.execute();
+
+            int rowCount = callableStatement.getInt(2);
+
+            ResultSet resultSet = callableStatement.getResultSet();
+            int k = 0;
+            entries = new Object[rowCount][8];
+            while (resultSet.next()) {
+
+                entries[k][0] = resultSet.getInt("id_pacient");
+                entries[k][1] = getPacientNumePrenumeFromId((Integer) entries[k][0]).getFirst();
+                entries[k][2] = getPacientNumePrenumeFromId((Integer) entries[k][0]).getLast();
+                entries[k][3] = resultSet.getDate("data_programare");
+                entries[k][4] = resultSet.getTime("ora");
+                int id_m = resultSet.getInt("id_medic");
+                entries[k][5] = getInfoForAngajat(id_m).get(0);
+                entries[k][6] = getInfoForAngajat(id_m).get(1);
+                entries[k][7] = resultSet.getBoolean("finalizat");
+                k++;
+            }
+
+
+            return entries;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return null;
+        }
+    }
+
+
+
+
+
+
+    public Object[][] getCentre()
+    {
+
+        Object[][] entries;
+        try {
+
+            String query = "SELECT * FROM centru";
+
+            String countQuery = "SELECT COUNT(*) AS row_count FROM centru";
+            PreparedStatement countStatement = connection.prepareStatement(countQuery);
+            ResultSet countResultSet = countStatement.executeQuery();
+
+            int rowCount = 0;
+            if (countResultSet.next()) {
+                rowCount = countResultSet.getInt("row_count");
+            }
+            entries = new Object[rowCount][4];
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+
+            int k=0;
+
+            while (resultSet.next()) {
+
+                entries[k][0] =  resultSet.getInt("id_centru");
+                entries[k][1] = resultSet.getString("nume_centru");
+                entries[k][2] = resultSet.getString("adresa");
+                entries[k][3] = resultSet.getString("program");
+
+                //   System.out.println(entries[k][1].toString());
+                k++;
+            }
+
+            return entries;
         } catch (SQLException e) {
             e.printStackTrace(); // Handle or log the exception as per your requirement
             return null;
@@ -361,6 +528,114 @@ public class BigModel {
 
         return al;
     }
+
+
+    public ArrayList<String> getPacienti() {
+        ArrayList<String> al = new ArrayList<>();
+
+        try {
+            CallableStatement callableStatement = connection.prepareCall("SELECT * FROM pacient");
+            ResultSet resultSet = callableStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String nume_pacient = resultSet.getString("nume");
+                nume_pacient = nume_pacient + " " + resultSet.getString("prenume");
+                if(!al.contains(nume_pacient))
+                    al.add(nume_pacient);
+            }
+            resultSet.close();
+        } catch(SQLException e) {
+            al.add("");
+        }
+
+        return al;
+    }
+
+    public int getIdPacientFromNumePrenume(String fullName)
+    {
+        String[] nameParts = fullName.split(" ");
+        int pId = -1;
+        // Check if the split produced at least two parts (first name and last name)
+        if (nameParts.length >= 2) {
+            String firstName = nameParts[0];
+            String lastName = nameParts[1];
+            try {
+                CallableStatement callableStatement = connection.prepareCall("SELECT * FROM pacient WHERE nume=? AND prenume = ?");
+                callableStatement.setString(1, firstName);
+                callableStatement.setString(2,lastName);
+                ResultSet resultSet = callableStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    pId = resultSet.getInt("id_pacient");
+                }
+                resultSet.close();
+                return  pId;
+            } catch(SQLException e) {
+                return -1;
+            }
+
+        }
+        else { return -1; }
+    }
+
+
+    public int getIdAngajatFromNumePrenumeFunctie(String fullName, String functie)
+    {
+        String[] nameParts = fullName.split(" ");
+        int aId = -1;
+        // Check if the split produced at least two parts (first name and last name)
+        if (nameParts.length >= 2) {
+            String firstName = nameParts[0];
+            String lastName = nameParts[1];
+            try {
+                CallableStatement callableStatement = connection.prepareCall("SELECT * FROM angajat WHERE nume=? AND prenume = ? AND functie=?");
+                callableStatement.setString(1, firstName);
+                callableStatement.setString(2,lastName);
+                callableStatement.setString(3,functie);
+                ResultSet resultSet = callableStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    aId = resultSet.getInt("id_angajat");
+                }
+                resultSet.close();
+                return  aId;
+            } catch(SQLException e) {
+                return -1;
+            }
+
+        }
+        else { return -1; }
+    }
+
+
+
+    public ArrayList<String> getAngajatiNumePrenumeFromFunctieAndCentru(String functie, int id_centru)
+    {
+        ArrayList<String> al = new ArrayList<>();
+
+        try {
+            CallableStatement callableStatement = connection.prepareCall("SELECT * FROM angajat WHERE functie=? AND id_centru = ?");
+            callableStatement.setString(1, functie);
+            callableStatement.setInt(2,id_centru);
+            ResultSet resultSet = callableStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String nume_angajat = resultSet.getString("nume");
+                nume_angajat = nume_angajat + " " + resultSet.getString("prenume");
+                if(!al.contains(nume_angajat))
+                    al.add(nume_angajat);
+            }
+            resultSet.close();
+        } catch(SQLException e) {
+            al.add("");
+        }
+
+        return al;
+    }
+
+
+
+
 
 
     public ArrayList<String> getDepts() {
