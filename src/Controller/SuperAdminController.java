@@ -102,7 +102,7 @@ public class SuperAdminController extends BigController implements ActionListene
             {
                 Object selectedValue = av.getCentreTable().getValueAt(selectedRow, 0);
                 Object checkForSuper = av.getCentreTable().getValueAt(selectedRow, 1);
-                if(!checkForSuper.toString().equals("super")) {
+                if(!checkForSuper.toString().equals("Super")) {
                     if (am.deleteCentruFromDB((int) selectedValue)) {
                         av.setCentreRowData(am.getCentre());
                         av.replaceComboBoxItems(am.getCenters());

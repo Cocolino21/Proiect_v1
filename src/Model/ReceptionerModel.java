@@ -46,7 +46,8 @@ public class ReceptionerModel extends BigModel{
     public boolean insertProgramare(int id_pacient, int id_medic, int id_receptioner, java.sql.Date date, java.sql.Time time )
     {
         try{
-            System.out.println(id_medic);
+           /* System.out.println(id_medic);
+            System.out.println(id_receptioner);*/
             CallableStatement callableStatement = connection.prepareCall(" CALL InsertProgramare(?, ?, ?, ?,?);");
             callableStatement.setTime(1,time);
             callableStatement.setDate(2, date);
@@ -70,7 +71,30 @@ public class ReceptionerModel extends BigModel{
         }
     }
 
+    // Stergere programare
 
+    public boolean deleteProgramareFromDB(int id_programare)
+    {
+        try{
+           // System.out.println(id_programare);
+            CallableStatement callableStatement = connection.prepareCall(" CALL DeleteProgramare(?);");
+            callableStatement.setInt(1, id_programare);
+            int rowsAffected = callableStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                // Successfully deleted
+                return true;
+            } else {
+                // delete failed
+                return false;
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
 }

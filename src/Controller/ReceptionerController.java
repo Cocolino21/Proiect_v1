@@ -25,6 +25,7 @@ public class ReceptionerController extends BasicController implements ActionList
         rm = (ReceptionerModel) model;
         rv.getButtonAdaugaPacient().addActionListener(this);
         rv.getButtonAdaugaProgramare().addActionListener(this);
+        rv.getButtonStergeProgramare().addActionListener(this);
         rv.getAdaugaPacient().addActionListener(this);
         rv.setProgramariRowData(rm.getProgramari(rm.getCurrentAngajat().getId()));
         rv.getAdaugaProgramare().addActionListener(this);
@@ -94,6 +95,22 @@ public class ReceptionerController extends BasicController implements ActionList
                     // Handle parsing exception
                     pe.printStackTrace();
                 }
+            }
+        }
+
+        if(e.getSource()==rv.getButtonStergeProgramare())
+        {
+            int selectedRow = rv.getProgramariTable().getSelectedRow();
+            if (selectedRow != -1)
+            {
+                Object selectedValue = rv.getProgramariTable().getValueAt(selectedRow, 0);
+
+                    if (rm.deleteProgramareFromDB((int) selectedValue)) {
+                        rv.setProgramariRowData(rm.getProgramari(-1));
+                       // rv.re
+
+
+                    }
             }
         }
 
