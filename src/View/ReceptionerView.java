@@ -98,6 +98,8 @@ public class ReceptionerView extends BasicView {
         buttonSearchProgramare = new JButton();
         searchProgramareButtonIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("images/search_button_icon.png")));
         buttonSearchProgramare.setIcon(searchProgramareButtonIcon);
+
+
         /////  INCEPUT FEREASTRA CU ADAUGARE PROGRAMARE
         idReceptioner = new JLabel("id Receptioner");
         idPacient = new JLabel("id Pacient");

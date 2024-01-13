@@ -47,12 +47,12 @@ public class AsistentMedicalView extends BasicView {
     @Override
     public void reAddToBV_RP_m3Panel()
     {
+        updateProgramariTable();
+
         reAddToAsistentRM3Panel();
         asistentM3Panel.setPreferredSize(new Dimension(675, 500));
         BV_rightPanel.removeAll();
         BV_rightPanel.add(asistentM3Panel, "gapx 10");
-
-        updateProgramariTable();
 
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
@@ -62,6 +62,7 @@ public class AsistentMedicalView extends BasicView {
     {
         asistentM3Panel.removeAll();
         asistentM3Panel.add(buttonCompletareAnalize, "span");
+        asistentM3Panel.add(programariSP);
     }
 
 
@@ -72,10 +73,8 @@ public class AsistentMedicalView extends BasicView {
 
         updateProgramariTable();
 
-        asistentM3Panel.add(buttonCompletareAnalize);
-        asistentM3Panel.add(programariSP);
 
-        //////// Completare Analize Frame
+        //////// INCEPUT Completare Analize Frame
         completareAnalizeFrame = new JFrame("Completare analize");
         completareAnalizeFrame.setSize(new Dimension(200, 50));
         completareAnalizeFrame.setResizable(false);
@@ -84,15 +83,20 @@ public class AsistentMedicalView extends BasicView {
         detaliiTF.setPreferredSize(new Dimension(150, 30));
         submitButton = new JButton("Submit");
 
-        completareAnalizePanel.add(detaliiTF, "span");
-        completareAnalizePanel.add(submitButton);
-        completareAnalizeFrame.add(completareAnalizePanel);
+        updateCompletareAnalize();
         completareAnalizeFrame.pack();
         //////// Final Completare Analize Frame
 
     }
-
-
+    public void updateAsistentM3Panel(){
+        asistentM3Panel.add(buttonCompletareAnalize);
+        asistentM3Panel.add(programariSP);
+    }
+    public void updateCompletareAnalize(){
+        completareAnalizePanel.add(detaliiTF, "span");
+        completareAnalizePanel.add(submitButton);
+        completareAnalizeFrame.add(completareAnalizePanel);
+    }
 
     public void updateProgramariTable() {
         String[] programari = new String[]{"id Pacient", "Nume", "Prenume", "Data", "Ora", "Nume Medic", "Prenume Medic","Finalizat"};

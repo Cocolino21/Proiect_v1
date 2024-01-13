@@ -29,6 +29,10 @@ public class AuthCheck extends BigModel{
                 return 1;
             case "recepționer":
                 return 2;
+            case "financiar_contabil":
+                return 3;
+            case "asistent_medical":
+                return 4;
         }
         return 0;
     }

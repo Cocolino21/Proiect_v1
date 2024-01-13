@@ -1,10 +1,7 @@
 package Controller;
 
 import Model.*;
-import View.AuthView;
-import View.MedicView;
-import View.ReceptionerView;
-import View.SuperAdminView;
+import View.*;
 import com.formdev.flatlaf.FlatDarkLaf;
 
 import javax.swing.*;
@@ -49,7 +46,18 @@ public class AuthController implements ActionListener {
                 model_receptioner.setCurrentAngajat(currentAngajat);
                 ReceptionerController controller_receptioner  =new ReceptionerController(view_receptioner,model_receptioner);
                 break;
-
+            case 3:
+                ContabilView view_contabil = new ContabilView(currentAngajat);
+                ContabilModel model_contabil = new ContabilModel();
+                model_contabil.setCurrentAngajat(currentAngajat);
+                ContabilController controller_contabil = new ContabilController(view_contabil,model_contabil);
+                break;
+            case 4:
+                AsistentMedicalView view_asistentMedical = new AsistentMedicalView(currentAngajat);
+                AsistentMedicalModel model_asistentMedical = new AsistentMedicalModel();
+                model_asistentMedical.setCurrentAngajat(currentAngajat);
+                AsistentMedicalController controller_asistentMedical = new AsistentMedicalController(view_asistentMedical,model_asistentMedical);
+                break;
         }
     }
 
