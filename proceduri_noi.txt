@@ -1,0 +1,48 @@
+DELIMITER //
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectProgramareByReceptioner`(
+    IN input_id_angajat INT,
+    OUT row_count INT
+)
+BEGIN
+    DECLARE id_centru_var INT;
+
+    -- Your logic to get id_centru from input_id_angajat
+    SELECT id_centru INTO id_centru_var FROM angajat WHERE id_angajat = input_id_angajat;
+
+    -- Select from programare using JOIN
+    SELECT p.*
+    FROM programare p
+    JOIN angajat a ON p.id_receptioner = a.id_angajat
+    WHERE a.id_centru = id_centru_var AND a.functie = 'receptioner';
+
+    -- Set the row count using FOUND_ROWS()
+    SELECT FOUND_ROWS() INTO row_count;
+END //
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertPacient`(
+    IN p_nume VARCHAR(20),
+    IN p_prenume VARCHAR(20),
+    IN p_CNP VARCHAR(16),
+    IN p_nr_telefon VARCHAR(15),
+    IN p_email VARCHAR(30)
+)
+BEGIN
+    INSERT INTO pacient (nume, prenume, CNP, nr_telefon, email)
+    VALUES (p_nume, p_prenume, p_CNP, p_nr_telefon, p_email);
+END //
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertProgramare`(
+    IN p_ora TIME,
+    IN p_data_programare DATE,
+    IN p_id_medic INT,
+    IN p_id_receptioner INT,
+    IN p_id_pacient INT
+)
+BEGIN
+    -- Insert new programare
+    INSERT INTO programare (ora, data_programare, id_medic, id_receptioner, id_pacient)
+    VALUES (p_ora, p_data_programare, p_id_medic, p_id_receptioner, p_id_pacient);
+END //
+
+DELIMITER ;
