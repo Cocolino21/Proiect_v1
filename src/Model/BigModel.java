@@ -20,7 +20,7 @@ public class BigModel {
 
     public BigModel() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "*DaniPeNet_1");
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "?");
         } catch(SQLException se) {
             se.printStackTrace();
         }
