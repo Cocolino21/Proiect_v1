@@ -196,7 +196,7 @@ public class BasicView extends JFrame {
         BV_salariiLuniTable.getTableHeader().setReorderingAllowed(false);
         BV_salariiLuniSP = new JScrollPane(BV_salariiLuniTable);
         BV_salariiLuniSP.setAutoscrolls(true);
-        BV_salariiLuniSP.setPreferredSize(new Dimension(720,370));
+        BV_salariiLuniSP.setPreferredSize(new Dimension(675,370));
         BV_RP_m2Panel.add(BV_salariiLuniSP,"gapy 20, span");
 
 

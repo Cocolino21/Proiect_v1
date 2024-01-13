@@ -64,7 +64,7 @@ public class ReceptionerView extends BasicView {
     public void reAddToBV_RP_m3Panel()
     {
         reAddToReceptionerM3Panel();
-        receptionerM3Panel.setPreferredSize(new Dimension(700, 500));
+        receptionerM3Panel.setPreferredSize(new Dimension(675, 500));
         BV_rightPanel.removeAll();
         BV_rightPanel.add(receptionerM3Panel, "gapx 10");
 
@@ -280,6 +280,8 @@ public class ReceptionerView extends BasicView {
     public JButton getButtonAdaugaPacient() { return buttonAdaugaPacient;}
 
     public JButton getButtonAdaugaProgramare() { return buttonAdaugaProgramare;}
+
+    public JButton getButtonStergeProgramare() { return buttonStergeProgramare;}
 
     public JTable getProgramariTable() { return programariTable;}
 
