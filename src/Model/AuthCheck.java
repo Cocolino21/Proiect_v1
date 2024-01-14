@@ -33,6 +33,10 @@ public class AuthCheck extends BigModel{
                 return 3;
             case "asistent_medical":
                 return 4;
+            case "inspector_resurse_um":
+                return 5;
+            case "admin":
+                return 6;
         }
         return 0;
     }

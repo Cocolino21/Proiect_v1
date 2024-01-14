@@ -58,6 +58,18 @@ public class AuthController implements ActionListener {
                 model_asistentMedical.setCurrentAngajat(currentAngajat);
                 AsistentMedicalController controller_asistentMedical = new AsistentMedicalController(view_asistentMedical,model_asistentMedical);
                 break;
+            case 5:
+                InspectorView view_inspector = new InspectorView(currentAngajat);
+                InspectorModel model_inspector = new InspectorModel();
+                model_inspector.setCurrentAngajat(currentAngajat);
+                InspectorController conroller_inspector = new InspectorController(view_inspector, model_inspector);
+                break;
+            case 6:
+                AdminView view_admin = new AdminView(currentAngajat);
+                AdminModel model_admin = new AdminModel();
+                model_admin.setCurrentAngajat(currentAngajat);
+                AdminController controller_admin = new AdminController(view_admin, model_admin);
+                break;
         }
     }
 

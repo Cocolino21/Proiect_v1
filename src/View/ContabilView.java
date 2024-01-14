@@ -233,35 +233,26 @@ public class ContabilView extends BasicView{
         contabilM2Panel.add(profitCentruButton);
     }
 
-    public JComboBox<String> getMedicCB() {
-        return medicCB;
-    }
 
     public JButton getProfitMedicButton() {
         return profitMedicButton;
     }
-
     public JButton getProfitCentruButton() {
         return profitCentruButton;
     }
-
-    public JComboBox<String> getAngajatCB() {
-        return angajatCB;
-    }
-
     public JButton getSalarAngajatButton() {
         return salarAngajatButton;
     }
-
-    public JTextField getSalarAngajatTF() {
-        return salarAngajatTF;
-    }
-
-    public JComboBox<String> getSpecialitateMedicalaCB() {
-        return specialitateMedicalaCB;
-    }
-
     public JButton getProfitSpecialitateButton() {
         return profitSpecialitateButton;
+    }
+    public JFrame getProfitCentruFrame() {
+        return profitCentruFrame;
+    }
+    public JFrame getProfitMedicFrame() {
+        return profitMedicFrame;
+    }
+    public JFrame getProfitSpecialitateFrame() {
+        return profitSpecialitateFrame;
     }
 }

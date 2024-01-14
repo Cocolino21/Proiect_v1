@@ -76,11 +76,11 @@ public class AsistentMedicalView extends BasicView {
 
         //////// INCEPUT Completare Analize Frame
         completareAnalizeFrame = new JFrame("Completare analize");
-        completareAnalizeFrame.setSize(new Dimension(200, 50));
+        completareAnalizeFrame.setSize(new Dimension(400, 100));
         completareAnalizeFrame.setResizable(false);
         completareAnalizePanel = new JPanel(new MigLayout());
         detaliiTF = new JTextField();
-        detaliiTF.setPreferredSize(new Dimension(150, 30));
+        detaliiTF.setPreferredSize(new Dimension(350, 70));
         submitButton = new JButton("Submit");
 
         updateCompletareAnalize();
@@ -115,5 +115,17 @@ public class AsistentMedicalView extends BasicView {
         programariSP.setPreferredSize(new Dimension(920, 370));
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
+    }
+
+    public JFrame getCompletareAnalizeFrame() {
+        return completareAnalizeFrame;
+    }
+
+    public JButton getSubmitButton() {
+        return submitButton;
+    }
+
+    public JButton getButtonCompletareAnalize() {
+        return buttonCompletareAnalize;
     }
 }

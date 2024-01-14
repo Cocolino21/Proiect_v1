@@ -16,11 +16,16 @@ public class AsistentMedicalController extends BasicController implements Action
         super(view, model);
         av = (AsistentMedicalView) view;
         am = (AsistentMedicalModel) model;
+
+        av.getButtonCompletareAnalize().addActionListener(this);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
         super.actionPerformed(e);
-
+        if(e.getSource() == av.getButtonCompletareAnalize())
+        {
+            av.getCompletareAnalizeFrame().setVisible(true);
+        }
 
     }
 }
