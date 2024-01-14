@@ -93,10 +93,22 @@ public class MedicView extends BasicView {
         {
             medicM3Panel.setPreferredSize(new Dimension(720,520));
             BV_rightPanel.removeAll();
-            BV_rightPanel.add(medicM3Panel,"gapx 10");
+            BV_rightPanel.add(medicM3Panel);
             this.getContentPane().revalidate();
             this.getContentPane().repaint();
         }
+
+        public void reAddToMedicM3Panel()
+        {
+            medicM3Panel.removeAll();
+            updateProgramariMedicTable();
+            medicM3Panel.add(raportButton);
+            medicM3Panel.add(istoricButton, "span");
+            medicM3Panel.add(programariMedicSP);
+
+        }
+
+
         public  MedicView(CurrentAngajat currentAngajat){
             super("Proiect_V1_Policlinici_Medic",currentAngajat);
             medicM3Panel = new JPanel(new FlowLayout());
@@ -105,10 +117,6 @@ public class MedicView extends BasicView {
 
             raportButton = new JButton("Raport");
             istoricButton = new JButton("Istoric");
-
-            medicM3Panel.add(raportButton);
-            medicM3Panel.add(istoricButton, "span");
-            medicM3Panel.add(programariMedicSP);
 
             buildRaportFrame();
 
@@ -194,13 +202,14 @@ public class MedicView extends BasicView {
         istoricFrame.setResizable(false);
     }
     public void updateProgramariMedicTable() {
-        String[] programariMedic = new String[]{"Nume", "Prenume", "Data", "Ora", "Serviciu"};
+        String[] programariMedic = new String[]{"id Pacient", "Nume", "Prenume", "Data", "Ora","Finalizat"};
 
         programariMedicTableModel = new DefaultTableModel(programariMedicRowData, programariMedic);
         programariMedicTable = new JTable(programariMedicTableModel);
 
         programariMedicTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         programariMedicTable.setDefaultEditor(Object.class, null);
+        programariMedicTable.setAutoCreateRowSorter(true);
         programariMedicTable.getTableHeader().setReorderingAllowed(false);
         programariMedicTable.setColumnSelectionAllowed(false);
 
@@ -227,6 +236,9 @@ public class MedicView extends BasicView {
     }
 
 
+    public void setProgramariMedicRowData(Object[][] programariMedicRowData) {
+        this.programariMedicRowData = programariMedicRowData;
+    }
 
     public JScrollPane getIstoricSP() {
         return istoricSP;

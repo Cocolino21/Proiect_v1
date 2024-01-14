@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class MedicController extends BasicController implements ActionListener {
@@ -43,6 +44,12 @@ public class MedicController extends BasicController implements ActionListener {
         }
         if (e.getSource() == mv.getInvestigatiiButton()){
             mv.getInvestigatiiFrame().setVisible(true);
+        }
+        if(e.getSource()==mv.getBV_m3Button())
+        {
+            mv.setProgramariMedicRowData(mm.getProgramariForMedic(mm.getCurrentAngajat().getId()));
+            mv.reAddToMedicM3Panel();
+            mv.reAddToBV_RP_m3Panel();
         }
 
     }

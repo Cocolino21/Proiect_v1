@@ -20,7 +20,7 @@ public class BigModel {
 
     public BigModel() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "");
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "?");
         } catch(SQLException se) {
             se.printStackTrace();
         }
@@ -172,6 +172,39 @@ public class BigModel {
             return null;
         }
     }
+
+    public Object[][] getProgramariForMedic(int id_angajat) {
+        Object[][] entries;
+        try {
+            CallableStatement callableStatement = connection.prepareCall("{CALL SelectProgramareByMedic(?, ?)}");
+            callableStatement.setInt(1, id_angajat);
+            callableStatement.registerOutParameter(2, Types.INTEGER);
+            callableStatement.execute();
+
+            int rowCount = callableStatement.getInt(2);
+
+            ResultSet resultSet = callableStatement.getResultSet();
+            int k = 0;
+            entries = new Object[rowCount][6];
+            while (resultSet.next()) {
+
+                entries[k][0] = resultSet.getInt("id_pacient");
+                entries[k][1] = getPacientNumePrenumeFromId((Integer) entries[k][0]).getFirst();
+                entries[k][2] = getPacientNumePrenumeFromId((Integer) entries[k][0]).getLast();
+                entries[k][3] = resultSet.getDate("data_programare");
+                entries[k][4] = resultSet.getTime("ora");
+                entries[k][5] = resultSet.getBoolean("finalizat");
+                k++;
+            }
+
+
+            return entries;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return null;
+        }
+    }
+
 
 
 
