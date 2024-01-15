@@ -304,6 +304,22 @@ public class BigModel {
 
     }
 
+    public class RaportAnalizaEntry {
+        public int idAnaliza;
+        public int idPacient;
+        public String rezultat;
+        public int idAsistent;
+
+        // Constructor
+        public RaportAnalizaEntry(int idAnaliza, int idPacient,String rezultat, int idAsistent) {
+            this.idAnaliza = idAnaliza;
+            this.idPacient = idPacient;
+            this.rezultat = rezultat;
+            this.idAsistent = idAsistent;
+        }
+
+
+    }
 
     public Object[][] getIstoricRapoarteForMedic(int idPacient) {
         Object[][] entries;
@@ -344,51 +360,34 @@ public class BigModel {
         }
     }
 
-    public String getRezultatFromIdAnaliza(int idAnaliza) // dau push la mihnea
-    {
-        String temp = new String();
-        try {
-            String query = "SELECT * FROM `proiect_v1`.`raportanaliza` WHERE `id_analiza` = ?";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, idAnaliza);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                temp = resultSet.getString("rezultat");
-            }
-            return temp;
-
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public Object[][] getRaportAnalizaForMedic(int idPacient) {
         Object[][] entries;
         try {
-            CallableStatement callableStatement = connection.prepareCall("{CALL SelectRaportAnaliza(?)}");
+            CallableStatement callableStatement = connection.prepareCall("SELECT * FROM raportanaliza WHERE id_pacient = ?");
             callableStatement.setInt(1, idPacient);
-            callableStatement.registerOutParameter(2, Types.INTEGER);
             callableStatement.execute();
 
-            int rowCount = callableStatement.getInt(2);
 
+            ArrayList<RaportAnalizaEntry> raportAnalizaEntryArrayList = new ArrayList<>();
             ResultSet resultSet = callableStatement.getResultSet();
-            int k = 0;
-            entries = new Object[rowCount][4];
-            while (resultSet.next()) {
 
-                entries[k][0] = resultSet.getInt("id_analiza");
-                entries[k][1] = resultSet.getInt("id_pacient");
-                entries[k][2] = getRezultatFromIdAnaliza((Integer) entries[k][0]);
-                entries[k][3] = resultSet.getInt("id_asistent");
+            while (resultSet.next()) {
+                RaportAnalizaEntry raportAnalizaEntry = new RaportAnalizaEntry(resultSet.getInt("id_analiza"),resultSet.getInt("id_pacient"),resultSet.getString("rezultat"), resultSet.getInt("id_asistent"));
+                raportAnalizaEntryArrayList.add(raportAnalizaEntry);
+            }
+            int rowCount = raportAnalizaEntryArrayList.size();
+            entries = new Object[rowCount][7];
+            int k=0;
+            for(RaportAnalizaEntry e : raportAnalizaEntryArrayList)
+            {
+                entries[k][0] = e.idAnaliza;
+                entries[k][1] = e.idPacient;
+                entries[k][2] = e.rezultat;
+                entries[k][3] = e.idAsistent;
+
                 k++;
             }
+
 
 
             return entries;
