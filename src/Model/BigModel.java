@@ -311,7 +311,7 @@ public class BigModel {
         }
     }
 
-    public String getRezultatFromIdAnaliza(int idAnaliza)
+    public String getRezultatFromIdAnaliza(int idAnaliza) // dau push la mihnea
     {
         String temp = new String();
         try {
