@@ -20,7 +20,7 @@ public class BigModel {
 
     public BigModel() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "");
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "*DaniPeNet_1");
         } catch(SQLException se) {
             se.printStackTrace();
         }
@@ -206,10 +206,164 @@ public class BigModel {
     }
 
 
+    public String getRecomandariFromRaportId(int idRaport)
+    {
+        String temp = new String();
+        try {
+            String query = "SELECT * FROM `proiect_v1`.`raport` WHERE `id_raport` = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idRaport);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                temp = resultSet.getString("recomandare");
+            }
+            return temp;
 
 
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
+    public String getIstoricRelevantFromRaportId(int idRaport)
+    {
+        String temp = new String();
+        try {
+            String query = "SELECT * FROM `proiect_v1`.`raport` WHERE `id_raport` = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idRaport);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                temp = resultSet.getString("istoric_relev");
+            }
+            return temp;
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getDiagnosticFromRaportId(int idRaport)
+    {
+        String temp = new String();
+        try {
+            String query = "SELECT * FROM `proiect_v1`.`raport` WHERE `id_raport` = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idRaport);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                temp = resultSet.getString("diagnostic");
+            }
+            return temp;
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Object[][] getIstoricRapoarteForMedic(int idPacient) {
+        Object[][] entries;
+        try {
+            CallableStatement callableStatement = connection.prepareCall("{CALL SelectIsoricRapoarte(?)}");
+            callableStatement.setInt(1, idPacient);
+            callableStatement.registerOutParameter(2, Types.INTEGER);
+            callableStatement.execute();
+
+            int rowCount = callableStatement.getInt(2);
+
+            ResultSet resultSet = callableStatement.getResultSet();
+            int k = 0;
+            entries = new Object[rowCount][7];
+            while (resultSet.next()) {
+
+                entries[k][0] = resultSet.getInt("id_raport");
+                entries[k][1] = resultSet.getInt("id_pacient");
+                entries[k][2] = resultSet.getInt("id_asistent");
+                entries[k][3] = getRecomandariFromRaportId((Integer) entries[k][0]);
+                entries[k][4] = getIstoricRelevantFromRaportId((Integer) entries[k][0]);
+                entries[k][5] = getDiagnosticFromRaportId((Integer) entries[k][0]);
+                entries[k][6] = resultSet.getDate("data_completare");
+                k++;
+            }
+
+
+            return entries;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return null;
+        }
+    }
+
+    public String getRezultatFromIdAnaliza(int idAnaliza)
+    {
+        String temp = new String();
+        try {
+            String query = "SELECT * FROM `proiect_v1`.`raportanaliza` WHERE `id_analiza` = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idAnaliza);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                temp = resultSet.getString("rezultat");
+            }
+            return temp;
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Object[][] getRaportAnalizaForMedic(int idPacient) {
+        Object[][] entries;
+        try {
+            CallableStatement callableStatement = connection.prepareCall("{CALL SelectRaportAnaliza(?)}");
+            callableStatement.setInt(1, idPacient);
+            callableStatement.registerOutParameter(2, Types.INTEGER);
+            callableStatement.execute();
+
+            int rowCount = callableStatement.getInt(2);
+
+            ResultSet resultSet = callableStatement.getResultSet();
+            int k = 0;
+            entries = new Object[rowCount][4];
+            while (resultSet.next()) {
+
+                entries[k][0] = resultSet.getInt("id_analiza");
+                entries[k][1] = resultSet.getInt("id_pacient");
+                entries[k][2] = getRezultatFromIdAnaliza((Integer) entries[k][0]);
+                entries[k][3] = resultSet.getInt("id_asistent");
+                k++;
+            }
+
+
+            return entries;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return null;
+        }
+    }
 
     public Object[][] getCentre()
     {
@@ -709,6 +863,33 @@ public class BigModel {
         }
 
         return al;
+    }
+
+    public ArrayList<Integer> getServiciuIdFromServiciuNume(ArrayList<String> numeServiciu)
+    {
+        ArrayList<Integer> idServicii = new ArrayList<>();
+
+        try {
+            CallableStatement statement = connection.prepareCall("CALL IdFromNumeServiciu(?)");
+
+            for (String nume : numeServiciu) {
+                statement.setString(1, nume);
+                ResultSet resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    int idServiciu = resultSet.getInt("id_serviciu");
+                    idServicii.add(idServiciu);
+                }
+                resultSet.close();
+            }
+
+            statement.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return idServicii;
     }
 
 }
