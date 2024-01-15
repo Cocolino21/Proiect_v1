@@ -207,77 +207,6 @@ public class BigModel {
     }
 
 
-    public String getRecomandariFromRaportId(int idRaport)
-    {
-        String temp = new String();
-        try {
-            String query = "SELECT * FROM `proiect_v1`.`raport` WHERE `id_raport` = ?";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, idRaport);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                temp = resultSet.getString("recomandare");
-            }
-            return temp;
-
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public String getIstoricRelevantFromRaportId(int idRaport)
-    {
-        String temp = new String();
-        try {
-            String query = "SELECT * FROM `proiect_v1`.`raport` WHERE `id_raport` = ?";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, idRaport);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                temp = resultSet.getString("istoric_relev");
-            }
-            return temp;
-
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public String getDiagnosticFromRaportId(int idRaport)
-    {
-        String temp = new String();
-        try {
-            String query = "SELECT * FROM `proiect_v1`.`raport` WHERE `id_raport` = ?";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, idRaport);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                temp = resultSet.getString("diagnostic");
-            }
-            return temp;
-
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     public class RaportEntry {
         public int idRaport;
@@ -324,6 +253,7 @@ public class BigModel {
     public Object[][] getIstoricRapoarteForMedic(int idPacient) {
         Object[][] entries;
         try {
+            //wtf
             CallableStatement callableStatement = connection.prepareCall("SELECT * FROM raport WHERE id_pacient = ?");
             callableStatement.setInt(1, idPacient);
             callableStatement.execute();
