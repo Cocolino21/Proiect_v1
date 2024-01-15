@@ -474,6 +474,7 @@ public class SuperAdminView extends JFrame {
         angajatiSearchBylabel.add(editAngajatButton,"gapy 10");
         addAngajatJFrame = new JFrame();
         aajf_mainPanel = new JPanel(new MigLayout("gapx 10, gapy 10, insets 20"));
+        aajf_mainPanel.setPreferredSize(new Dimension(400, 600));
         aajf_l = new JLabel[13];
         for(int i=0;i<13;i++)
             aajf_l[i] = new JLabel();

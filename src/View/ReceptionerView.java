@@ -88,7 +88,6 @@ public class ReceptionerView extends BasicView {
         super("Proiect_V1_Policlinici_Receptioner", currentAngajat);
         receptionerM3Panel = new JPanel(new MigLayout("insets 0"));
 
-
         updateProgramariTable();
 
         adaugaPacientFrame = new JFrame("Adauga pacient");

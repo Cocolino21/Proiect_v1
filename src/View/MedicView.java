@@ -81,11 +81,9 @@ public class MedicView extends BasicView {
 
         private JFrame investigatiiFrame;
         private JPanel investigatiiPanel;
-        private JTextField investigatiiTF1;
-        private JTextField invetigatiiTF2;
-        private JComboBox alegeServiciuCB;
-        private JButton investigatiiButton1;
-        private JButton investigatiiButton2;
+        private JButton adaugaServiciuInInvestigatiiButton;
+        private JList<String> seriviciiAdaugateList;
+        private JScrollPane serviciiAdaugateSP;
         private JButton adaugaServiciuButton;
 
         @Override
@@ -130,11 +128,18 @@ public class MedicView extends BasicView {
     public void buildInvestigatiiFrame()
     {
         investigatiiFrame = new JFrame("Investigatii");
-        investigatiiPanel = new JPanel(new MigLayout("insets 0"));
+        investigatiiFrame.setPreferredSize(new Dimension(250,300));
+        investigatiiPanel = new JPanel(new MigLayout("insets 10"));
+        adaugaServiciuInInvestigatiiButton = new JButton("Adauga serviciile selectate");
+        seriviciiAdaugateList = new JList<>();
 
-        adaugaServiciuButton = new JButton("Adauga serviciu");
+        adaugaServiciuButton = new JButton("Adauga serviciile selectat");
 
+
+        serviciiAdaugateSP = new JScrollPane(seriviciiAdaugateList);
+        investigatiiPanel.add(serviciiAdaugateSP, "span");
         investigatiiPanel.add(adaugaServiciuButton);
+
 
         investigatiiFrame.setContentPane(investigatiiPanel);
         investigatiiFrame.pack();

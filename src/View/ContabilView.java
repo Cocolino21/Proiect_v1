@@ -99,6 +99,8 @@ public class ContabilView extends BasicView{
         specialitateMedicalaCB.setPreferredSize(new Dimension(125,50));
         salarAngajatTF = new JTextField();
         salarAngajatTF.setPreferredSize(new Dimension(125,50));
+        salarAngajatTF.setEnabled(false);
+        salarAngajatTF.setEditable(false);
 
         angajatLabel = new JLabel("Selectati angajatul");
         angajatLabel.setPreferredSize(new Dimension(100, 50));

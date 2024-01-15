@@ -15,9 +15,12 @@ public class InspectorController extends BasicController implements ActionListen
         super(view, model);
         iv = (InspectorView) view;
         im = (InspectorModel) model;
+        iv.getVeziOrarButton().addActionListener(this);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
         super.actionPerformed(e);
+        if(e.getSource() == iv.getVeziOrarButton())
+            iv.getOrarFrame().setVisible(true);
     }
 }
