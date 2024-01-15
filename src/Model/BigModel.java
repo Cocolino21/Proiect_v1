@@ -6,6 +6,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -20,7 +21,7 @@ public class BigModel {
 
     public BigModel() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "");
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "hd15mky.Mihibosti28");
         } catch(SQLException se) {
             se.printStackTrace();
         }
@@ -278,30 +279,62 @@ public class BigModel {
         }
     }
 
+    public class RaportEntry {
+        public int idRaport;
+        public int idPacient;
+        public int idAsistent;
+        public String recomandari;
+        public String istoricRelevant;
+        public String diagnostic;
+        public LocalDate dataCompletare;
+
+        // Constructor
+        public RaportEntry(int idRaport, int idPacient, int idAsistent,
+                           String recomandari, String istoricRelevant,
+                           String diagnostic, LocalDate dataCompletare) {
+            this.idRaport = idRaport;
+            this.idPacient = idPacient;
+            this.idAsistent = idAsistent;
+            this.recomandari = recomandari;
+            this.istoricRelevant = istoricRelevant;
+            this.diagnostic = diagnostic;
+            this.dataCompletare = dataCompletare;
+        }
+
+
+    }
+
+
     public Object[][] getIstoricRapoarteForMedic(int idPacient) {
         Object[][] entries;
         try {
-            CallableStatement callableStatement = connection.prepareCall("{CALL SelectIsoricRapoarte(?)}");
+            CallableStatement callableStatement = connection.prepareCall("SELECT * FROM raport WHERE id_pacient = ?");
             callableStatement.setInt(1, idPacient);
-            callableStatement.registerOutParameter(2, Types.INTEGER);
             callableStatement.execute();
 
-            int rowCount = callableStatement.getInt(2);
 
+            ArrayList<RaportEntry> raportEntryArrayList = new ArrayList<>();
             ResultSet resultSet = callableStatement.getResultSet();
-            int k = 0;
-            entries = new Object[rowCount][7];
-            while (resultSet.next()) {
 
-                entries[k][0] = resultSet.getInt("id_raport");
-                entries[k][1] = resultSet.getInt("id_pacient");
-                entries[k][2] = resultSet.getInt("id_asistent");
-                entries[k][3] = getRecomandariFromRaportId((Integer) entries[k][0]);
-                entries[k][4] = getIstoricRelevantFromRaportId((Integer) entries[k][0]);
-                entries[k][5] = getDiagnosticFromRaportId((Integer) entries[k][0]);
-                entries[k][6] = resultSet.getDate("data_completare");
+            while (resultSet.next()) {
+                RaportEntry raportEntry = new RaportEntry(resultSet.getInt("id_raport"),resultSet.getInt("id_pacient"),resultSet.getInt("id_asistent"), resultSet.getString("recomandari"),resultSet.getString("istoric_relev"),resultSet.getString("diagonistic"),resultSet.getDate("data_completare").toLocalDate());
+                raportEntryArrayList.add(raportEntry);
+            }
+            int rowCount = raportEntryArrayList.size();
+            entries = new Object[rowCount][7];
+            int k=0;
+            for(RaportEntry e : raportEntryArrayList)
+            {
+                entries[k][0] = e.idRaport;
+                entries[k][1] = e.idPacient;
+                entries[k][2] = e.idAsistent;
+                entries[k][3] = e.recomandari;
+                entries[k][4] = e.istoricRelevant;
+                entries[k][5] = e.diagnostic;
+                entries[k][6] = e.dataCompletare;
                 k++;
             }
+
 
 
             return entries;

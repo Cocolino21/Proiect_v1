@@ -17,10 +17,12 @@ public class ContabilController extends BasicController implements ActionListene
         super(view, model);
         cm = (ContabilModel)model;
         cv = (ContabilView)view;
+        cv.replaceSelectMedicCB(cm.getAngajatiNumePrenumeFromFunctieAndCentru("medic",cm.getCurrentAngajat().getId_centru()));
         cv.getProfitMedicButton().addActionListener(this);
         cv.getProfitCentruButton().addActionListener(this);
         cv.getProfitSpecialitateButton().addActionListener(this);
         cv.getSalarAngajatButton().addActionListener(this);
+
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -34,6 +36,11 @@ public class ContabilController extends BasicController implements ActionListene
         if (e.getSource() == cv.getProfitCentruButton()) {
             cv.getProfitCentruFrame().setVisible(true);
         }
+        if(e.getSource()==cv.getBV_m2Button())
+        {
+            cv.replaceSelectMedicCB(cm.getAngajatiNumePrenumeFromFunctieAndCentru("medic",cm.getCurrentAngajat().getId_centru()));
+        }
+
 
     }
 }

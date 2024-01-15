@@ -152,6 +152,8 @@ public class ContabilView extends BasicView{
         profitCentruFrame.setResizable(false);
         ///// SFARSIT FEREASTRA PROFIT CENTRU
 
+
+
     }
     public void updateProfitCentruTable(){
         String[] profitCentru = new String[]{"Luna", "Cheltuieli", "Venituri"};
@@ -233,6 +235,15 @@ public class ContabilView extends BasicView{
         contabilM2Panel.add(specialitateMedicalaCB);
         contabilM2Panel.add(profitSpecialitateButton, "span");
         contabilM2Panel.add(profitCentruButton);
+    }
+
+    public void replaceSelectMedicCB(ArrayList<String> strings)
+    {
+        medicCB.removeAllItems();
+        for(String s: strings)
+        {
+            medicCB.addItem(s);
+        }
     }
 
 

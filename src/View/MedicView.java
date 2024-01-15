@@ -224,7 +224,8 @@ public class MedicView extends BasicView {
     }
 
     public void updateIstoricTable() {
-        String[] istoric = new String[]{"Raport ID","Data", "Ora", "Serviciu"};
+
+        String[] istoric = new String[]{"Raport ID","Pacient ID", "Asistent ID", "Recomandari","Istoric Relevant","Diagnostic","Data Completare"};
 
         istoricTableModel = new DefaultTableModel(istoricRowData, istoric);
         istoricTable = new JTable(istoricTableModel);
@@ -238,11 +239,36 @@ public class MedicView extends BasicView {
 
         istoricSP.setAutoscrolls(true);
         istoricSP.setPreferredSize(new Dimension(700, 400));
+
+        if(istoricFrame!=null) {
+
+            istoricFrame.revalidate();
+            istoricFrame.repaint();
+            this.revalidate();
+            this.repaint();
+        }
     }
+
 
 
     public void setProgramariMedicRowData(Object[][] programariMedicRowData) {
         this.programariMedicRowData = programariMedicRowData;
+    }
+
+    public void setIstoricRowData(Object[][] istoricRowData) {
+        this.istoricRowData = istoricRowData;
+    }
+
+    public DefaultTableModel getIstoricTableModel() {
+        return istoricTableModel;
+    }
+
+    public JTable getIstoricTable() {
+        return istoricTable;
+    }
+
+    public Object[][] getIstoricRowData() {
+        return istoricRowData;
     }
 
     public JScrollPane getIstoricSP() {

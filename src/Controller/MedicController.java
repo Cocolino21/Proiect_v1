@@ -38,12 +38,31 @@ public class MedicController extends BasicController implements ActionListener {
 
         if (e.getSource() == mv.getRaportButton()) {
             mv.getRaportFrame().setVisible(true);
+
         }
         if (e.getSource() == mv.getIstoricButton()){
-            mv.getIstoricFrame().setVisible(true);
+            int selectedRow = mv.getProgramariMedicTable().getSelectedRow();
+            // System.out.println(selectedRow);
+            if (selectedRow != -1) {
+
+                Object selectedValue = mv.getProgramariMedicTable().getValueAt(selectedRow, 0);
+                mv.setIstoricRowData(mm.getIstoricRapoarteForMedic((int)selectedValue));
+
+                mv.updateIstoricTable();
+                mv.buildIstoricFrame();
+                mv.getIstoricFrame().setVisible(true);
+
+
+            }
+
         }
         if (e.getSource() == mv.getInvestigatiiButton()){
             mv.getInvestigatiiFrame().setVisible(true);
+            ArrayList<Integer> al = new ArrayList<Integer>();
+            al.add(1);
+            al.add(2);
+            al.add(4);
+           // mm.insertInvestigatieInDB(2,al);
         }
         if(e.getSource()==mv.getBV_m3Button())
         {
@@ -51,6 +70,7 @@ public class MedicController extends BasicController implements ActionListener {
             mv.reAddToMedicM3Panel();
             mv.reAddToBV_RP_m3Panel();
         }
+
 
     }
 

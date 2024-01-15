@@ -169,7 +169,7 @@ public class ReceptionerView extends BasicView {
     }
 
     public void updateProgramariTable() {
-        String[] programari = new String[]{"id Pacient", "Nume", "Prenume", "Data", "Ora", "Nume Medic", "Prenume Medic","Finalizat"};
+        String[] programari = new String[]{"id Programare", "Nume", "Prenume", "Data", "Ora", "Nume Medic", "Prenume Medic","Finalizat"};
 
         programariTableModel = new DefaultTableModel(programariRowData, programari);
         programariTable = new JTable(programariTableModel);
