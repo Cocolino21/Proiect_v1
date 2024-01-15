@@ -237,6 +237,7 @@ public class BigModel {
     public Object[][] getIstoricRapoarteForMedic(int idPacient) {
         Object[][] entries;
         try {
+            //wtf
             CallableStatement callableStatement = connection.prepareCall("SELECT * FROM raport WHERE id_pacient = ?");
             callableStatement.setInt(1, idPacient);
             callableStatement.execute();
