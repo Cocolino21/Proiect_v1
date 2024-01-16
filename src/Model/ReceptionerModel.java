@@ -94,54 +94,5 @@ public class ReceptionerModel extends BigModel{
         }
     }
 
-    public boolean insertInvestigatieInDB(int idRaport, ArrayList<Integer> idServiciu)
-    {
-        try{
-            CallableStatement callableStatement = connection.prepareCall(" CALL InsertInvestigatie(?,?);");
-            callableStatement.setInt(1, idRaport);
-            int rowsAffected = callableStatement.executeUpdate();
-
-            Array idServiciiArray = connection.createArrayOf("INT", idServiciu.toArray());
-            callableStatement.setArray(2, idServiciiArray);
-            if (rowsAffected > 0) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        catch(SQLException e)
-        {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public ArrayList<Integer> getServiciuIdFromServiciuNume(ArrayList<String> numeServiciu)
-    {
-        ArrayList<Integer> idServicii = new ArrayList<>();
-
-        try {
-            CallableStatement statement = connection.prepareCall("CALL IdFromNumeServiciu(?)");
-
-            for (String nume : numeServiciu) {
-                statement.setString(1, nume);
-                ResultSet resultSet = statement.executeQuery();
-
-                if (resultSet.next()) {
-                    int idServiciu = resultSet.getInt("id_serviciu");
-                    idServicii.add(idServiciu);
-                }
-                resultSet.close();
-            }
-
-            statement.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return idServicii;
-    }
-
 
 }

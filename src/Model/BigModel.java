@@ -185,16 +185,18 @@ public class BigModel {
 
             ResultSet resultSet = callableStatement.getResultSet();
             int k = 0;
-            entries = new Object[rowCount][6];
+            entries = new Object[rowCount][7];
             while (resultSet.next()) {
-
-                entries[k][0] = resultSet.getInt("id_pacient");
-                entries[k][1] = getPacientNumePrenumeFromId((Integer) entries[k][0]).getFirst();
-                entries[k][2] = getPacientNumePrenumeFromId((Integer) entries[k][0]).getLast();
-                entries[k][3] = resultSet.getDate("data_programare");
-                entries[k][4] = resultSet.getTime("ora");
-                entries[k][5] = resultSet.getBoolean("finalizat");
-                k++;
+                if(!resultSet.getBoolean("finalizat")) {
+                    entries[k][0] = resultSet.getInt("id_pacient");
+                    entries[k][1] = getPacientNumePrenumeFromId((Integer) entries[k][0]).getFirst();
+                    entries[k][2] = getPacientNumePrenumeFromId((Integer) entries[k][0]).getLast();
+                    entries[k][3] = resultSet.getDate("data_programare");
+                    entries[k][4] = resultSet.getTime("ora");
+                    entries[k][5] = resultSet.getBoolean("finalizat");
+                    entries[k][6] = resultSet.getInt("id_programare");
+                    k++;
+                }
             }
 
 
@@ -206,10 +208,91 @@ public class BigModel {
     }
 
 
+    public ArrayList<String>  getServiciiForMedic(int id_medic)
+    {
+        ArrayList<String> temp = new ArrayList<String>();
+        try {
+            CallableStatement callableStatement = connection.prepareCall("{CALL GetServicesForMedic(?)}");
+            callableStatement.setInt(1, id_medic);
+            callableStatement.execute();
+            ResultSet resultSet = callableStatement.getResultSet();
+
+            while (resultSet.next())
+            {
+                temp.add(resultSet.getString("nume_serviciu_result"));
+            }
+            return temp;
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return null;
+        }
+    }
 
 
 
 
+
+
+
+
+
+
+    public String getRezultatFromIdAnaliza(int idAnaliza) // dau push la mihnea
+    {
+        String temp = new String();
+        try {
+            String query = "SELECT * FROM `proiect_v1`.`raportanaliza` WHERE `id_analiza` = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idAnaliza);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                temp = resultSet.getString("rezultat");
+            }
+            return temp;
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Object[][] getRaportAnalizaForMedic(int idPacient) {
+        Object[][] entries;
+        try {
+            CallableStatement callableStatement = connection.prepareCall("{CALL SelectRaportAnaliza(?)}");
+            callableStatement.setInt(1, idPacient);
+            callableStatement.registerOutParameter(2, Types.INTEGER);
+            callableStatement.execute();
+
+            int rowCount = callableStatement.getInt(2);
+
+            ResultSet resultSet = callableStatement.getResultSet();
+            int k = 0;
+            entries = new Object[rowCount][4];
+            while (resultSet.next()) {
+
+                entries[k][0] = resultSet.getInt("id_analiza");
+                entries[k][1] = resultSet.getInt("id_pacient");
+                entries[k][2] = getRezultatFromIdAnaliza((Integer) entries[k][0]);
+                entries[k][3] = resultSet.getInt("id_asistent");
+                k++;
+            }
+
+
+            return entries;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return null;
+        }
+    }
 
     public Object[][] getCentre()
     {
@@ -667,6 +750,27 @@ public class BigModel {
     }
 
 
+    public ArrayList<String> getAngajatiNumePrenumeFromCentru(int id_centru)
+    {
+        ArrayList<String> al = new ArrayList<>();
+
+        try {
+            CallableStatement callableStatement = connection.prepareCall("SELECT * FROM angajat WHERE id_centru = ?");
+            callableStatement.setInt(1, id_centru);
+            ResultSet resultSet = callableStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String nume_angajat = resultSet.getString("nume");
+                nume_angajat = nume_angajat + " " + resultSet.getString("prenume");
+                if(!al.contains(nume_angajat))
+                    al.add(nume_angajat);
+            }
+            resultSet.close();
+        } catch(SQLException e) {
+            al.add("");
+        }
+        return al;
+    }
 
 
 
@@ -709,6 +813,33 @@ public class BigModel {
         }
 
         return al;
+    }
+
+    public ArrayList<Integer> getServiciuIdFromServiciuNume(ArrayList<String> numeServiciu)
+    {
+        ArrayList<Integer> idServicii = new ArrayList<>();
+
+        try {
+            CallableStatement statement = connection.prepareCall("CALL IdFromNumeServiciu(?)");
+
+            for (String nume : numeServiciu) {
+                statement.setString(1, nume);
+                ResultSet resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    int idServiciu = resultSet.getInt("id_serviciu");
+                    idServicii.add(idServiciu);
+                }
+                resultSet.close();
+            }
+
+            statement.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return idServicii;
     }
 
 }

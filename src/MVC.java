@@ -9,6 +9,7 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MVC {
 
@@ -20,6 +21,8 @@ public class MVC {
 
         AuthCheck ac = new AuthCheck();
         AuthController controller = new AuthController(ac, (AuthView) av);
+
+
         //System.out.println(HashIt.hashThePass("root_123"));
         //controller. changeState(0, null);;
        // controller.changeState(1,null);

@@ -10,8 +10,7 @@ import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.*;
 
 
 import Model.AuthCheck;
@@ -45,12 +44,10 @@ public class MedicView extends BasicView {
     //// RAPORT FRAME
         private JFrame raportFrame;
         private JPanel raportPanel;
-        private JLabel recomandatDeMedicLabel;
-        private JTextField recomandatDeMedicTF;
+
         private JLabel medicCeAEfectuatLabel;
-        private JComboBox<String> medicCeAEfectuatCB;
         private JLabel asistentMedicalLabel;
-        private JTextField asistentMedicalTF;
+        private JComboBox<String> asistentMedicalCB;
         private JLabel dataEfectuariiLabel;
         private JXDatePicker dataEfectuariiDP;
         private JLabel istoricRelevantLabel;
@@ -67,7 +64,7 @@ public class MedicView extends BasicView {
 
         //// ISTORIC frame
         private JFrame istoricFrame;
-        private JButton veziRaportButton;
+        private JButton veziRaportButton = new JButton("Vezi detalii raport");
         private JPanel istoricPanel;
         private DefaultTableModel istoricTableModel;
         private JScrollPane istoricSP;
@@ -76,13 +73,22 @@ public class MedicView extends BasicView {
 
         //// SFARIST ISTORIC frame
 
+        ////
+        private JFrame detaliiRaportFrame;
+        private JPanel detaliiRaportPanel;
+        private ArrayList<JLabel> detaliiRaportServiciiEfectuateArray = new ArrayList<>();
+
+
 
         ///// INVESTIGATII FRAME
 
         private JFrame investigatiiFrame;
         private JPanel investigatiiPanel;
         private JButton adaugaServiciuInInvestigatiiButton;
+        DefaultListModel<String> serviciiListModel = new DefaultListModel<>();
         private JList<String> seriviciiAdaugateList;
+
+
         private JScrollPane serviciiAdaugateSP;
         private JButton adaugaServiciuButton;
 
@@ -105,6 +111,7 @@ public class MedicView extends BasicView {
             medicM3Panel.add(programariMedicSP);
 
         }
+
 
 
         public  MedicView(CurrentAngajat currentAngajat){
@@ -131,7 +138,7 @@ public class MedicView extends BasicView {
         investigatiiFrame.setPreferredSize(new Dimension(250,300));
         investigatiiPanel = new JPanel(new MigLayout("insets 10"));
         adaugaServiciuInInvestigatiiButton = new JButton("Adauga serviciile selectate");
-        seriviciiAdaugateList = new JList<>();
+        seriviciiAdaugateList = new JList<>(serviciiListModel);
 
         adaugaServiciuButton = new JButton("Adauga serviciile selectat");
 
@@ -146,17 +153,45 @@ public class MedicView extends BasicView {
         investigatiiFrame.setLocationRelativeTo(null);
         investigatiiFrame.setResizable(false);
     }
+
+    public void setDetaliiRaportServiciiEfectuateArray(ArrayList<String> x)
+    {
+        detaliiRaportServiciiEfectuateArray = new ArrayList<JLabel>();
+        for(String s : x)
+        {
+            detaliiRaportServiciiEfectuateArray.add(new JLabel(s));
+        }
+    }
+
+    public void buildServiciiForRaportJFrame()
+    {
+
+        detaliiRaportFrame = new JFrame("Detalii raport");
+        detaliiRaportPanel = new JPanel(new MigLayout("insets 10"));
+        detaliiRaportPanel.add(new JLabel("Servicii efectuate : "),"span");
+        for(JLabel j : detaliiRaportServiciiEfectuateArray)
+        {
+            detaliiRaportPanel.add(j,"span");
+        }
+        detaliiRaportFrame.setLocationRelativeTo(null);
+        detaliiRaportFrame.setContentPane(detaliiRaportPanel);
+        detaliiRaportFrame.setResizable(false);
+        detaliiRaportFrame.pack();
+        detaliiRaportFrame.revalidate();
+        detaliiRaportFrame.repaint();
+
+    }
+
+
+
     public void buildRaportFrame()
     {
         raportFrame = new JFrame("Raport medical");
-        raportPanel = new JPanel(new MigLayout("insets 0"));
+        raportPanel = new JPanel(new MigLayout("insets 20"));
 
-        recomandatDeMedicLabel = new JLabel("Recomandat de");
-        recomandatDeMedicTF = new JTextField("");
-        medicCeAEfectuatLabel = new JLabel("Medic ce a efectuat");
-        medicCeAEfectuatCB = new JComboBox<>();
+
         asistentMedicalLabel = new JLabel("Asistent Medical");
-        asistentMedicalTF = new JTextField();
+        asistentMedicalCB = new JComboBox<>();
         dataEfectuariiLabel = new JLabel("Data efectuarii");
         dataEfectuariiDP = new JXDatePicker();
         istoricRelevantLabel = new JLabel("Istoric relevant");
@@ -166,14 +201,11 @@ public class MedicView extends BasicView {
         diagonsticTF = new JTextField();
         recomandariLabel = new JLabel("Recomandari");
         recomandariTF = new JTextField();
-        submitButton = new JButton("Submit");
+        submitButton = new JButton("Parafare");
 
-        raportPanel.add(recomandatDeMedicLabel);
-        raportPanel.add(recomandatDeMedicTF, "span");
-        raportPanel.add(medicCeAEfectuatLabel);
-        raportPanel.add(medicCeAEfectuatCB, "span");
+
         raportPanel.add(asistentMedicalLabel);
-        raportPanel.add(asistentMedicalTF, "span");
+        raportPanel.add(asistentMedicalCB, "span");
         raportPanel.add(dataEfectuariiLabel);
         raportPanel.add(dataEfectuariiDP, "span");
         raportPanel.add(istoricRelevantLabel);
@@ -185,6 +217,9 @@ public class MedicView extends BasicView {
         raportPanel.add(recomandariTF, "span");
         raportPanel.add(submitButton);
 
+
+        raportFrame.revalidate();
+        raportFrame.repaint();
         raportFrame.setContentPane(raportPanel);
         raportFrame.pack();
         raportFrame.setLocationRelativeTo(null);
@@ -196,8 +231,6 @@ public class MedicView extends BasicView {
         istoricFrame = new JFrame("Istoric Pacient");
         istoricPanel = new JPanel(new MigLayout("insets 0"));
 
-        veziRaportButton = new JButton("Vezi detalii raport");
-
         istoricPanel.add(veziRaportButton, "span");
         istoricPanel.add(istoricSP);
 
@@ -207,7 +240,7 @@ public class MedicView extends BasicView {
         istoricFrame.setResizable(false);
     }
     public void updateProgramariMedicTable() {
-        String[] programariMedic = new String[]{"id Pacient", "Nume", "Prenume", "Data", "Ora","Finalizat"};
+        String[] programariMedic = new String[]{"id Pacient", "Nume", "Prenume", "Data", "Ora","Finalizat","id Programare"};
 
         programariMedicTableModel = new DefaultTableModel(programariMedicRowData, programariMedic);
         programariMedicTable = new JTable(programariMedicTableModel);
@@ -224,7 +257,8 @@ public class MedicView extends BasicView {
     }
 
     public void updateIstoricTable() {
-        String[] istoric = new String[]{"Raport ID","Data", "Ora", "Serviciu"};
+
+        String[] istoric = new String[]{"Raport ID","Pacient ID", "Asistent ID", "Recomandari","Istoric Relevant","Diagnostic","Data Completare"};
 
         istoricTableModel = new DefaultTableModel(istoricRowData, istoric);
         istoricTable = new JTable(istoricTableModel);
@@ -238,11 +272,100 @@ public class MedicView extends BasicView {
 
         istoricSP.setAutoscrolls(true);
         istoricSP.setPreferredSize(new Dimension(700, 400));
+
+        if(istoricFrame!=null) {
+
+            istoricFrame.revalidate();
+            istoricFrame.repaint();
+            this.revalidate();
+            this.repaint();
+        }
+    }
+
+    public void replaceAsistentMedicalCB(ArrayList<String> strings)
+    {
+        asistentMedicalCB.removeAllItems();
+        for(String s: strings)
+        {
+            asistentMedicalCB.addItem(s);
+            System.out.println(s);
+        }
+    }
+
+    public void replaceServiciiAdaugateList(ArrayList<String> strings)
+    {
+        serviciiListModel.removeAllElements();
+        for(String s: strings)
+        {
+            serviciiListModel.addElement(s);
+        }
     }
 
 
+    public JList<String> getSeriviciiAdaugateList() {
+        return seriviciiAdaugateList;
+    }
+
+    public JXDatePicker getDataEfectuariiDP() {
+        return dataEfectuariiDP;
+    }
+
+    public JButton getSubmitButton() {
+        return submitButton;
+    }
+
+
+
+    public JTextField getIstoricRelevantTF() {
+        return istoricRelevantTF;
+    }
+
+    public JTextField getDiagonsticTF() {
+        return diagonsticTF;
+    }
+
+    public JTextField getRecomandariTF() {
+        return recomandariTF;
+    }
+
+    public JComboBox<String> getAsistentMedicalCB() {
+        return asistentMedicalCB;
+    }
+
+    public DefaultListModel<String> getServiciiListModel() {
+        return serviciiListModel;
+    }
+
+    public JButton getAdaugaServiciuButton() {
+        return adaugaServiciuButton;
+    }
+
+    public JButton getVeziRaportButton() {
+        return veziRaportButton;
+    }
+
+    public JFrame getDetaliiRaportFrame() {
+        return detaliiRaportFrame;
+    }
+
     public void setProgramariMedicRowData(Object[][] programariMedicRowData) {
         this.programariMedicRowData = programariMedicRowData;
+    }
+
+    public void setIstoricRowData(Object[][] istoricRowData) {
+        this.istoricRowData = istoricRowData;
+    }
+
+    public DefaultTableModel getIstoricTableModel() {
+        return istoricTableModel;
+    }
+
+    public JTable getIstoricTable() {
+        return istoricTable;
+    }
+
+    public Object[][] getIstoricRowData() {
+        return istoricRowData;
     }
 
     public JScrollPane getIstoricSP() {
