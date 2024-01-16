@@ -101,17 +101,13 @@ public class ReceptionerController extends BasicController implements ActionList
         if(e.getSource()==rv.getButtonStergeProgramare())
         {
             int selectedRow = rv.getProgramariTable().getSelectedRow();
-           // System.out.println(selectedRow);
             if (selectedRow != -1)
             {
                 Object selectedValue = rv.getProgramariTable().getValueAt(selectedRow, 0);
-                System.out.println((int)selectedValue);
                     if (rm.deleteProgramareFromDB((int) selectedValue)) {
                         rv.setProgramariRowData(rm.getProgramari(rm.getCurrentAngajat().getId()));
                         rv.updateProgramariTable();
                         rv.reAddToReceptionerM3Panel();
-
-
                     }
             }
         }

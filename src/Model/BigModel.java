@@ -766,6 +766,29 @@ public class BigModel {
     }
 
 
+    public int getIdMedicFromCentruIdSiFunctie(int centruId, String functie)
+    {
+        int al = 0;
+        try {
+            CallableStatement callableStatement = connection.prepareCall("SELECT * FROM angajat WHERE functie=? AND id_centru = ?");
+            callableStatement.setString(1, functie);
+            callableStatement.setInt(2,centruId);
+            ResultSet resultSet = callableStatement.executeQuery();
+
+            while (resultSet.next()) {
+                al = resultSet.getInt("id_angajat");
+            }
+            resultSet.close();
+        }
+        catch(SQLException e) {
+            return -1;
+        }
+
+        return al;
+    }
+
+
+
 
     public ArrayList<String> getAngajatiNumePrenumeFromFunctieAndCentru(String functie, int id_centru)
     {

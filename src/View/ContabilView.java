@@ -246,6 +246,16 @@ public class ContabilView extends BasicView{
         }
     }
 
+    public void replaceSelectSpecialitateCB(ArrayList<String> strings)
+    {
+        specialitateMedicalaCB.removeAllItems();
+        for(String s: strings)
+        {
+            specialitateMedicalaCB.addItem(s);
+        }
+    }
+
+
     public JComboBox<String> getAngajatCB() { return angajatCB;}
     public JButton getProfitMedicButton() {
         return profitMedicButton;
@@ -262,6 +272,9 @@ public class ContabilView extends BasicView{
     public JFrame getProfitCentruFrame() {
         return profitCentruFrame;
     }
+
+    public JTextField getProfitSpecialitateTF() { return profitSpecialitateTF; }
+
     public JFrame getProfitMedicFrame() {
         return profitMedicFrame;
     }
@@ -269,5 +282,7 @@ public class ContabilView extends BasicView{
         return profitSpecialitateFrame;
     }
     public JTextField getSalarAngajatTF() {  return salarAngajatTF;     }
+
+    public JComboBox<String> getSpecialitateMedicalaCB() { return specialitateMedicalaCB; }
 }
 
