@@ -6,7 +6,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -720,6 +719,27 @@ public class BigModel {
     }
 
 
+    public ArrayList<String> getAngajatiNumePrenumeFromCentru(int id_centru)
+    {
+        ArrayList<String> al = new ArrayList<>();
+
+        try {
+            CallableStatement callableStatement = connection.prepareCall("SELECT * FROM angajat WHERE id_centru = ?");
+            callableStatement.setInt(1, id_centru);
+            ResultSet resultSet = callableStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String nume_angajat = resultSet.getString("nume");
+                nume_angajat = nume_angajat + " " + resultSet.getString("prenume");
+                if(!al.contains(nume_angajat))
+                    al.add(nume_angajat);
+            }
+            resultSet.close();
+        } catch(SQLException e) {
+            al.add("");
+        }
+        return al;
+    }
 
 
 
