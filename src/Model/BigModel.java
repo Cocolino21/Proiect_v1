@@ -188,14 +188,15 @@ public class BigModel {
             int k = 0;
             entries = new Object[rowCount][6];
             while (resultSet.next()) {
-
-                entries[k][0] = resultSet.getInt("id_pacient");
-                entries[k][1] = getPacientNumePrenumeFromId((Integer) entries[k][0]).getFirst();
-                entries[k][2] = getPacientNumePrenumeFromId((Integer) entries[k][0]).getLast();
-                entries[k][3] = resultSet.getDate("data_programare");
-                entries[k][4] = resultSet.getTime("ora");
-                entries[k][5] = resultSet.getBoolean("finalizat");
-                k++;
+                if(!resultSet.getBoolean("finalizat")) {
+                    entries[k][0] = resultSet.getInt("id_pacient");
+                    entries[k][1] = getPacientNumePrenumeFromId((Integer) entries[k][0]).getFirst();
+                    entries[k][2] = getPacientNumePrenumeFromId((Integer) entries[k][0]).getLast();
+                    entries[k][3] = resultSet.getDate("data_programare");
+                    entries[k][4] = resultSet.getTime("ora");
+                    entries[k][5] = resultSet.getBoolean("finalizat");
+                    k++;
+                }
             }
 
 
@@ -205,6 +206,35 @@ public class BigModel {
             return null;
         }
     }
+
+
+    public ArrayList<String>  getServiciiForMedic(int id_medic)
+    {
+        ArrayList<String> temp = new ArrayList<String>();
+        try {
+            CallableStatement callableStatement = connection.prepareCall("{CALL GetServicesForMedic(?)}");
+            callableStatement.setInt(1, id_medic);
+            callableStatement.execute();
+            ResultSet resultSet = callableStatement.getResultSet();
+
+            while (resultSet.next())
+            {
+                temp.add(resultSet.getString("nume_serviciu_result"));
+            }
+            return temp;
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return null;
+        }
+    }
+
+
+
+
+
 
 
 
