@@ -121,7 +121,7 @@ public class ContabilView extends BasicView{
         profitMedicFrame.pack();
         profitMedicFrame.setLocationRelativeTo(null);
         profitMedicFrame.setResizable(false);
-        /////// SFARSIT FEREASTRA PROFIT MEDIC
+        /////// SFARSIT FEREASTRA PROFIT MEDIC /
 
 
 

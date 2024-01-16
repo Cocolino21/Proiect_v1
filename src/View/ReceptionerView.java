@@ -134,7 +134,7 @@ public class ReceptionerView extends BasicView {
         adaugaProgramareFrame.pack();
         adaugaProgramareFrame.setLocationRelativeTo(null);
         adaugaProgramareFrame.setResizable(false);
-        //// SFARSIT FEREASTRA ADAUGARE PROGRAMARE
+        ///// SFARSIT FEREASTRA ADAUGARE PROGRAMARE
 
         //// INCEPUT FEREASTRA ADAUGARE PACIENT
         adaugaPacientPanel = new JPanel(new MigLayout());
