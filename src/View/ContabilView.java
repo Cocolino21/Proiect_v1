@@ -31,24 +31,24 @@ public class ContabilView extends BasicView{
 
     private JFrame profitCentruFrame;
     private JPanel profitCentruPanel;
-    private DefaultTableModel profitCentruTableModel;
-    private JScrollPane profitCentruSP;
-    private JTable profitCentruTable;
-    Object[][] profitCentruRowData = null;
+    private JTextField profitCentruAnTF;
+    private JComboBox<String> profitCentruLunaCB;
+    private JButton veziProfitCentruButton;
+    private JTextField profitCentruTF;
 //////////////////////////////////////
     private JFrame profitMedicFrame;
     private JPanel profitMedicPanel;
-    private DefaultTableModel profitMedicTableModel;
-    private JScrollPane profitMedicSP;
-    private JTable profitMedicTable;
-    Object[][] profitMedicRowData = null;
+    private JTextField profitMedicAnTF;
+    private JComboBox<String> profitMedicLunaCB;
+    private JButton veziProfitMedicButton;
+    private JTextField profitMedicTF;
     /////////////////////////////////////
     private JFrame profitSpecialitateFrame;
     private JPanel profitSpecialitatePanel;
-    private DefaultTableModel profitSpecialitateTableModel;
-    private JScrollPane profitSpecialitateSP;
-    private JTable profitSpecialitateTable;
-    Object[][] profitSpecialitateRowData = null;
+    private JTextField profitSpecialitateAnTF;
+    private JComboBox<String> profitSpecialitateLunaCB;
+    private JButton veziProfitSpecialitateButton;
+    private JTextField profitSpecialitateTF;
     ///////////////////////////////////////////////
     private JPanel contabilM2Panel;
     private JComboBox<String> medicCB;
@@ -115,9 +115,8 @@ public class ContabilView extends BasicView{
         /////// INCEPUT FEREASTRA PROFIT MEDIC
         profitMedicFrame = new JFrame("Profit medic");
         profitMedicPanel = new JPanel(new MigLayout());
-        updateProfitMedicTable();
+        createProfitMedic();
 
-        profitMedicPanel.add(profitMedicSP);
         profitMedicFrame.setContentPane(profitMedicPanel);
         profitMedicFrame.pack();
         profitMedicFrame.setLocationRelativeTo(null);
@@ -129,9 +128,8 @@ public class ContabilView extends BasicView{
         ///// INCEPUT FEREASTRA PROFIT SPECIALITATE
         profitSpecialitateFrame = new JFrame("Profit specialitate");
         profitSpecialitatePanel = new JPanel(new MigLayout());
-        updateProfitSpecialitateTable();
+        createProfitSpecialitateTable();
 
-        profitSpecialitatePanel.add(profitSpecialitateSP);
         profitSpecialitateFrame.setContentPane(profitSpecialitatePanel);
         profitSpecialitateFrame.pack();
         profitSpecialitateFrame.setLocationRelativeTo(null);
@@ -143,9 +141,8 @@ public class ContabilView extends BasicView{
         ///// INCEPUT FEREASTRA PROFIT CENTRU
         profitCentruFrame = new JFrame("Profit specialitate");
         profitCentruPanel = new JPanel(new MigLayout());
-        updateProfitCentruTable();
+        createProfitCentruTable();
 
-        profitCentruPanel.add(profitCentruSP);
         profitCentruFrame.setContentPane(profitCentruPanel);
         profitCentruFrame.pack();
         profitCentruFrame.setLocationRelativeTo(null);
@@ -153,57 +150,51 @@ public class ContabilView extends BasicView{
         ///// SFARSIT FEREASTRA PROFIT CENTRU
 
     }
-    public void updateProfitCentruTable(){
-        String[] profitCentru = new String[]{"Luna", "Cheltuieli", "Venituri"};
+    public void createProfitCentruTable(){
+        profitCentruAnTF = new JTextField();
+        profitCentruLunaCB = new JComboBox<>();
+        veziProfitCentruButton = new JButton("Profit");
+        profitCentruTF = new JTextField();
+        profitCentruTF.setEditable(false);
+        profitCentruTF.setEnabled(false);
 
-        profitCentruTableModel = new DefaultTableModel(profitCentruRowData, profitCentru);
-        profitCentruTable = new JTable(profitCentruTableModel);
-        profitCentruTable.setAutoCreateRowSorter(true);
-        profitCentruTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        profitCentruTable.setDefaultEditor(Object.class, null);
-        profitCentruTable.getTableHeader().setReorderingAllowed(false);
-        profitCentruTable.setColumnSelectionAllowed(false);
+        profitCentruPanel.add(profitCentruAnTF);
+        profitCentruPanel.add(profitCentruLunaCB);
+        profitCentruPanel.add(veziProfitCentruButton, "span");
+        profitCentruPanel.add(profitCentruTF);
 
-        profitCentruSP = new JScrollPane(profitCentruTable);
-
-        profitCentruSP.setAutoscrolls(true);
-        profitCentruSP.setPreferredSize(new Dimension(400, 300));
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
     }
-    public void updateProfitSpecialitateTable(){
-        String[] profitSpecialitate = new String[]{"Luna", "Cheltuieli", "Venituri"};
+    public void createProfitSpecialitateTable(){
+        profitSpecialitateAnTF = new JTextField();
+        profitSpecialitateLunaCB = new JComboBox<>();
+        veziProfitSpecialitateButton = new JButton("Profit");
+        profitSpecialitateTF = new JTextField();
+        profitSpecialitateTF.setEditable(false);
+        profitSpecialitateTF.setEnabled(false);
 
-        profitSpecialitateTableModel = new DefaultTableModel(profitSpecialitateRowData, profitSpecialitate);
-        profitSpecialitateTable = new JTable(profitSpecialitateTableModel);
-        profitSpecialitateTable.setAutoCreateRowSorter(true);
-        profitSpecialitateTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        profitSpecialitateTable.setDefaultEditor(Object.class, null);
-        profitSpecialitateTable.getTableHeader().setReorderingAllowed(false);
-        profitSpecialitateTable.setColumnSelectionAllowed(false);
 
-        profitSpecialitateSP = new JScrollPane(profitSpecialitateTable);
-
-        profitSpecialitateSP.setAutoscrolls(true);
-        profitSpecialitateSP.setPreferredSize(new Dimension(400, 300));
+        profitSpecialitatePanel.add(profitSpecialitateAnTF);
+        profitSpecialitatePanel.add(profitSpecialitateLunaCB);
+        profitSpecialitatePanel.add(veziProfitSpecialitateButton, "span");
+        profitSpecialitatePanel.add(profitSpecialitateTF);
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
     }
-    public void updateProfitMedicTable(){
-        String[] profitMedic = new String[]{"Luna", "Cheltuieli", "Venituri"};
+    public void createProfitMedic(){
+        profitMedicAnTF = new JTextField();
+        profitMedicLunaCB = new JComboBox<>();
+        veziProfitMedicButton = new JButton("Profit");
+        profitMedicTF = new JTextField();
+        profitMedicTF.setEditable(false);
+        profitMedicTF.setEnabled(false);
 
-        profitMedicTableModel = new DefaultTableModel(profitMedicRowData, profitMedic);
-        profitMedicTable = new JTable(profitMedicTableModel);
-        profitMedicTable.setAutoCreateRowSorter(true);
-        profitMedicTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        profitMedicTable.setDefaultEditor(Object.class, null);
-        profitMedicTable.getTableHeader().setReorderingAllowed(false);
-        profitMedicTable.setColumnSelectionAllowed(false);
 
-        profitMedicSP = new JScrollPane(profitMedicTable);
-
-        profitMedicSP.setAutoscrolls(true);
-        profitMedicSP.setPreferredSize(new Dimension(400, 300));
+        profitMedicPanel.add(profitMedicAnTF);
+        profitMedicPanel.add(profitMedicLunaCB);
+        profitMedicPanel.add(veziProfitMedicButton, "span");
+        profitMedicPanel.add(profitMedicTF);
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
     }

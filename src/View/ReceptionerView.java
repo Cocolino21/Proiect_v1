@@ -51,6 +51,7 @@ public class ReceptionerView extends BasicView {
 ///////////////////////////////////////////////////////////////
     private JButton buttonAdaugaPacient= new JButton("Adauga pacient");
     private JButton buttonAdaugaProgramare= new JButton("Adauga programare");
+    private JButton buttonEmitereBonFiscal = new JButton("Emitere bon fiscal");
     private JButton buttonStergeProgramare=new JButton("Sterge programare");
     private JComboBox<String> selectNumeCB = new JComboBox<>();
     private DefaultTableModel programariTableModel;
@@ -59,6 +60,9 @@ public class ReceptionerView extends BasicView {
     private JButton buttonSearchProgramare;
     private Icon searchProgramareButtonIcon;
     Object[][] programariRowData = null;
+
+    //////////////////////
+    //////////////////////
 
     @Override
     public void reAddToBV_RP_m3Panel()
@@ -77,8 +81,9 @@ public class ReceptionerView extends BasicView {
     public void reAddToReceptionerM3Panel()
     {
         receptionerM3Panel.removeAll();
-        receptionerM3Panel.add(buttonAdaugaPacient, "span");
-        receptionerM3Panel.add(buttonAdaugaProgramare,"span");
+        receptionerM3Panel.add(buttonAdaugaPacient );
+        receptionerM3Panel.add(buttonAdaugaProgramare);
+        receptionerM3Panel.add(buttonEmitereBonFiscal, "span");
         receptionerM3Panel.add(programariSP, "span");
         receptionerM3Panel.add(buttonStergeProgramare,"span");
 
