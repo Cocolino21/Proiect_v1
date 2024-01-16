@@ -66,7 +66,7 @@ public class MedicView extends BasicView {
 
         //// ISTORIC frame
         private JFrame istoricFrame;
-        private JButton veziRaportButton = new JButton("Vezi detalii raportULLLLL");
+        private JButton veziRaportButton = new JButton("Vezi detalii raport");
         private JPanel istoricPanel;
         private DefaultTableModel istoricTableModel;
         private JScrollPane istoricSP;
