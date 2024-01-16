@@ -38,8 +38,16 @@ public class MedicController extends BasicController implements ActionListener {
         super.actionPerformed(e);
 
         if (e.getSource() == mv.getRaportButton()) {
-            mv.getRaportFrame().setVisible(true);
 
+
+          /*  for(String s : mm.getAngajatiNumePrenumeFromFunctieAndCentru("asistent_medical",mm.getCurrentAngajat().getId_centru()))
+            {
+                System.out.println(s);
+            }
+            System.out.println("2323");*/
+
+            mv.replaceAsistentMedicalCB(mm.getAngajatiNumePrenumeFromFunctieAndCentru("asistent_medical",mm.getCurrentAngajat().getId_centru()));
+            mv.getRaportFrame().setVisible(true);
         }
         if (e.getSource() == mv.getIstoricButton()){
             int selectedRow = mv.getProgramariMedicTable().getSelectedRow();
@@ -72,11 +80,10 @@ public class MedicController extends BasicController implements ActionListener {
             }
         }
         if (e.getSource() == mv.getInvestigatiiButton()){
+
+            mv.replaceServiciiAdaugateList(mm.getServiciiForMedic(mm.getCurrentAngajat().getId()));
+            mv.buildServiciiForRaportJFrame();
             mv.getInvestigatiiFrame().setVisible(true);
-            ArrayList<Integer> al = new ArrayList<Integer>();
-            al.add(1);
-            al.add(2);
-            al.add(4);
            // mm.insertInvestigatieInDB(2,al);
         }
         if(e.getSource()==mv.getBV_m3Button())

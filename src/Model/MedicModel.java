@@ -105,4 +105,51 @@ public class MedicModel extends BigModel{
         }
     }
 
+    public class InvestigatieEntry {
+        int idRaport;
+        ArrayList<Integer> id_investigatii;
+
+        // Constructor
+        public InvestigatieEntry(int idRaport, ArrayList<Integer> id_investigatii) {
+            this.idRaport = idRaport;
+            this.id_investigatii = id_investigatii;
+        }
+
+
+    }
+
+    public boolean insertRaport(int id_raport, int id_pacient, int id_asistent, String recomandari, String istoric_relev, String diagnostic, java.sql.Date dataCompletare, InvestigatieEntry investigatieEntry)
+    {
+        try{
+            CallableStatement callableStatement = connection.prepareCall(" CALL InsertIntoRaport(?, ?, ?, ?,?,?,?);");
+            callableStatement.setInt(1,id_raport);
+            callableStatement.setInt(2,id_pacient);
+            callableStatement.setInt(3,id_asistent);
+            callableStatement.setString(4,recomandari);
+            callableStatement.setString(5,istoric_relev);
+            callableStatement.setString(6,diagnostic);
+            callableStatement.setDate(7, dataCompletare);
+            int rowsAffected = callableStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                for(Integer i : investigatieEntry.id_investigatii)
+                {
+
+                }
+                return true;
+            } else {
+                // Insertion failed
+                return false;
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+
+
 }
