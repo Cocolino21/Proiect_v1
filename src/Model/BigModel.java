@@ -186,7 +186,7 @@ public class BigModel {
 
             ResultSet resultSet = callableStatement.getResultSet();
             int k = 0;
-            entries = new Object[rowCount][6];
+            entries = new Object[rowCount][7];
             while (resultSet.next()) {
                 if(!resultSet.getBoolean("finalizat")) {
                     entries[k][0] = resultSet.getInt("id_pacient");
@@ -195,6 +195,7 @@ public class BigModel {
                     entries[k][3] = resultSet.getDate("data_programare");
                     entries[k][4] = resultSet.getTime("ora");
                     entries[k][5] = resultSet.getBoolean("finalizat");
+                    entries[k][6] = resultSet.getInt("id_programare");
                     k++;
                 }
             }

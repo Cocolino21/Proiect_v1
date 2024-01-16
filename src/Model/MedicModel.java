@@ -105,20 +105,32 @@ public class MedicModel extends BigModel{
         }
     }
 
-    public class InvestigatieEntry {
-        int idRaport;
-        ArrayList<Integer> id_investigatii;
+    public int getServiciuIdFromServiciuNume(String serviciuNume)
+    {
+        int temp = -1;
+        try {
+            String query = "SELECT * FROM `proiect_v1`.`serviciumedical` WHERE `nume_serviciu` = ?";
 
-        // Constructor
-        public InvestigatieEntry(int idRaport, ArrayList<Integer> id_investigatii) {
-            this.idRaport = idRaport;
-            this.id_investigatii = id_investigatii;
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, serviciuNume);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next())
+            {
+                temp = resultSet.getInt("id_serviciu");
+            }
+
+            return temp;
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return -1;
         }
-
-
     }
 
-    public boolean insertRaport(int id_raport, int id_pacient, int id_asistent, String recomandari, String istoric_relev, String diagnostic, java.sql.Date dataCompletare, InvestigatieEntry investigatieEntry)
+
+
+    public boolean insertRaport(int id_raport, int id_pacient, int id_asistent, String recomandari, String istoric_relev, String diagnostic, java.sql.Date dataCompletare, ArrayList<Integer> id_investigatii)
     {
         try{
             CallableStatement callableStatement = connection.prepareCall(" CALL InsertIntoRaport(?, ?, ?, ?,?,?,?);");
@@ -132,9 +144,16 @@ public class MedicModel extends BigModel{
             int rowsAffected = callableStatement.executeUpdate();
 
             if (rowsAffected > 0) {
-                for(Integer i : investigatieEntry.id_investigatii)
+                for(Integer i : id_investigatii)
                 {
-
+                    CallableStatement callableStatement2 = connection.prepareCall(" CALL InsertInvestigatie(?, ?);");
+                    callableStatement2.setInt(1,id_raport);
+                    callableStatement2.setInt(2,i);
+                    int rowsAffected2 = callableStatement2.executeUpdate();
+                    if(rowsAffected2==0)
+                    {
+                        return false;
+                    }
                 }
                 return true;
             } else {

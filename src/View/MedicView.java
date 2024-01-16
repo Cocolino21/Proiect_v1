@@ -240,7 +240,7 @@ public class MedicView extends BasicView {
         istoricFrame.setResizable(false);
     }
     public void updateProgramariMedicTable() {
-        String[] programariMedic = new String[]{"id Pacient", "Nume", "Prenume", "Data", "Ora","Finalizat"};
+        String[] programariMedic = new String[]{"id Pacient", "Nume", "Prenume", "Data", "Ora","Finalizat","id Programare"};
 
         programariMedicTableModel = new DefaultTableModel(programariMedicRowData, programariMedic);
         programariMedicTable = new JTable(programariMedicTableModel);
@@ -301,8 +301,43 @@ public class MedicView extends BasicView {
         }
     }
 
+
+    public JList<String> getSeriviciiAdaugateList() {
+        return seriviciiAdaugateList;
+    }
+
+    public JXDatePicker getDataEfectuariiDP() {
+        return dataEfectuariiDP;
+    }
+
+    public JButton getSubmitButton() {
+        return submitButton;
+    }
+
+
+
+    public JTextField getIstoricRelevantTF() {
+        return istoricRelevantTF;
+    }
+
+    public JTextField getDiagonsticTF() {
+        return diagonsticTF;
+    }
+
+    public JTextField getRecomandariTF() {
+        return recomandariTF;
+    }
+
+    public JComboBox<String> getAsistentMedicalCB() {
+        return asistentMedicalCB;
+    }
+
     public DefaultListModel<String> getServiciiListModel() {
         return serviciiListModel;
+    }
+
+    public JButton getAdaugaServiciuButton() {
+        return adaugaServiciuButton;
     }
 
     public JButton getVeziRaportButton() {
