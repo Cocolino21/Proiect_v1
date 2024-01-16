@@ -41,10 +41,22 @@ public class ContabilController extends BasicController implements ActionListene
         {
             cv.replaceSelectMedicCB(cm.getAngajatiNumePrenumeFromFunctieAndCentru("medic",cm.getCurrentAngajat().getId_centru()));
             cv.replaceSelectAngajatCB(cm.getAngajatiNumePrenumeFromCentru(cm.getCurrentAngajat().getId_centru()));
+            cv.replaceSelectSpecialitateCB(cm.getSpecializariFromMedicId(cm.getIdMedicFromCentruIdSiFunctie(cm.getCurrentAngajat().getId_centru(),"medic")));
         }
         if(e.getSource() == cv.getSalarAngajatButton()){
 
-            cv.getSalarAngajatTF().setText(Integer.valueOf(cm.getSalariuAngajatFromNumePrenume(Objects.requireNonNull(cv.getAngajatCB().getSelectedItem()).toString())).toString());        }
+            cv.getSalarAngajatTF().setText(Integer.valueOf(cm.getSalariuAngajatFromNumePrenume(Objects.requireNonNull(cv.getAngajatCB().getSelectedItem()).toString())).toString());
+        }
+
+        if(e.getSource() == cv.getSalarAngajatButton()){
+
+            cv.getSalarAngajatTF().setText(Integer.valueOf(cm.getSalariuAngajatFromNumePrenume(Objects.requireNonNull(cv.getAngajatCB().getSelectedItem()).toString())).toString());
+        }
+
+        if(e.getSource() == cv.getProfitSpecialitateButton()){
+
+
+        }
 
     }
 }

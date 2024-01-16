@@ -1,6 +1,7 @@
 package Model;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class ContabilModel extends BigModel{
     private Connection connection;
@@ -36,5 +37,26 @@ public class ContabilModel extends BigModel{
         }
         else
             return -1;
+    }
+
+    public ArrayList<String> getSpecializariFromMedicId(int idMedic)
+    {
+        ArrayList<String> al = new ArrayList<>();
+
+        try {
+            CallableStatement callableStatement = connection.prepareCall("SELECT * FROM specializare_medic WHERE id_medic = ?");
+            callableStatement.setInt(1, idMedic);
+            ResultSet resultSet = callableStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String nume_angajat = resultSet.getString("nume_specializare");
+                if(!al.contains(nume_angajat))
+                    al.add(nume_angajat);
+            }
+            resultSet.close();
+        } catch(SQLException e) {
+            al.add("");
+        }
+        return al;
     }
 }
