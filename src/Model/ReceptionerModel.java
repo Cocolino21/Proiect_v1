@@ -9,7 +9,7 @@ public class ReceptionerModel extends BigModel{
 
     public ReceptionerModel() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "hd15mky.Mihibosti28");
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "");
         } catch(SQLException se) {
             se.printStackTrace();
         }

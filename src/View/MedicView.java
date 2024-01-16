@@ -10,8 +10,7 @@ import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.*;
 
 
 import Model.AuthCheck;
@@ -67,7 +66,7 @@ public class MedicView extends BasicView {
 
         //// ISTORIC frame
         private JFrame istoricFrame;
-        private JButton veziRaportButton;
+        private JButton veziRaportButton = new JButton("Vezi detalii raportULLLLL");
         private JPanel istoricPanel;
         private DefaultTableModel istoricTableModel;
         private JScrollPane istoricSP;
@@ -75,6 +74,12 @@ public class MedicView extends BasicView {
         Object[][] istoricRowData = null;
 
         //// SFARIST ISTORIC frame
+
+        ////
+        private JFrame detaliiRaportFrame;
+        private JPanel detaliiRaportPanel;
+        private ArrayList<JLabel> detaliiRaportServiciiEfectuateArray;
+
 
 
         ///// INVESTIGATII FRAME
@@ -105,6 +110,7 @@ public class MedicView extends BasicView {
             medicM3Panel.add(programariMedicSP);
 
         }
+
 
 
         public  MedicView(CurrentAngajat currentAngajat){
@@ -146,6 +152,37 @@ public class MedicView extends BasicView {
         investigatiiFrame.setLocationRelativeTo(null);
         investigatiiFrame.setResizable(false);
     }
+
+    public void setDetaliiRaportServiciiEfectuateArray(ArrayList<String> x)
+    {
+        detaliiRaportServiciiEfectuateArray = new ArrayList<JLabel>();
+        for(String s : x)
+        {
+            detaliiRaportServiciiEfectuateArray.add(new JLabel(s));
+        }
+    }
+
+    public void buildServiciiForRaportJFrame()
+    {
+
+        detaliiRaportFrame = new JFrame("Detalii raport");
+        detaliiRaportPanel = new JPanel(new MigLayout("insets 10"));
+        detaliiRaportPanel.add(new JLabel("Servicii efectuate : "),"span");
+        for(JLabel j : detaliiRaportServiciiEfectuateArray)
+        {
+            detaliiRaportPanel.add(j,"span");
+        }
+        detaliiRaportFrame.setLocationRelativeTo(null);
+        detaliiRaportFrame.setContentPane(detaliiRaportPanel);
+        detaliiRaportFrame.setResizable(false);
+        detaliiRaportFrame.pack();
+        detaliiRaportFrame.revalidate();
+        detaliiRaportFrame.repaint();
+
+    }
+
+
+
     public void buildRaportFrame()
     {
         raportFrame = new JFrame("Raport medical");
@@ -195,8 +232,6 @@ public class MedicView extends BasicView {
 
         istoricFrame = new JFrame("Istoric Pacient");
         istoricPanel = new JPanel(new MigLayout("insets 0"));
-
-        veziRaportButton = new JButton("Vezi detalii raport");
 
         istoricPanel.add(veziRaportButton, "span");
         istoricPanel.add(istoricSP);
@@ -250,6 +285,13 @@ public class MedicView extends BasicView {
     }
 
 
+    public JButton getVeziRaportButton() {
+        return veziRaportButton;
+    }
+
+    public JFrame getDetaliiRaportFrame() {
+        return detaliiRaportFrame;
+    }
 
     public void setProgramariMedicRowData(Object[][] programariMedicRowData) {
         this.programariMedicRowData = programariMedicRowData;
