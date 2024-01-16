@@ -15,12 +15,30 @@ public class InspectorController extends BasicController implements ActionListen
         super(view, model);
         iv = (InspectorView) view;
         im = (InspectorModel) model;
+        iv.replaceTabelaAngajati(iv.getAngajatiRowData());
         iv.getVeziOrarButton().addActionListener(this);
+        iv.getVeziCerereConcediuButton().addActionListener(this);
+       // iv.getAcceptConcediuButton().addActionListener(this);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
         super.actionPerformed(e);
-        if(e.getSource() == iv.getVeziOrarButton())
+        if(e.getSource() == iv.getBV_m1Button()){
+
+            iv.setAngajatiRowData(im.getAngajatiForResurse(im.getCurrentAngajat().getId_centru()));
+            iv.reAddToInspectorM1Panel();
+            iv.reAddToBV_RP_m1Panel();
+        }
+
+        if(e.getSource() == iv.getVeziOrarButton()) {
             iv.getOrarFrame().setVisible(true);
+        }
+
+        if(e.getSource() == iv.getVeziCerereConcediuButton()) {
+
+        }
     }
 }
+
+
+

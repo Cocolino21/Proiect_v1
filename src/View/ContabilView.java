@@ -2,31 +2,14 @@ package View;
 
 import Model.CurrentAngajat;
 import net.miginfocom.swing.MigLayout;
-import org.jdesktop.swingx.JXDatePicker;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.imageio.ImageIO;
-import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
-import Model.AuthCheck;
-import net.miginfocom.swing.MigLayout;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
 public class ContabilView extends BasicView{
 
     private JFrame profitCentruFrame;
@@ -117,10 +100,11 @@ public class ContabilView extends BasicView{
         profitMedicPanel = new JPanel(new MigLayout());
         createProfitMedic();
 
+        profitMedicFrame.setPreferredSize(new Dimension(300, 120));
         profitMedicFrame.setContentPane(profitMedicPanel);
         profitMedicFrame.pack();
         profitMedicFrame.setLocationRelativeTo(null);
-        profitMedicFrame.setResizable(false);
+
         /////// SFARSIT FEREASTRA PROFIT MEDIC /
 
 
@@ -130,23 +114,24 @@ public class ContabilView extends BasicView{
         profitSpecialitatePanel = new JPanel(new MigLayout());
         createProfitSpecialitateTable();
 
+        profitSpecialitateFrame.setPreferredSize(new Dimension(300, 120));
         profitSpecialitateFrame.setContentPane(profitSpecialitatePanel);
         profitSpecialitateFrame.pack();
         profitSpecialitateFrame.setLocationRelativeTo(null);
-        profitSpecialitateFrame.setResizable(false);
         ///// SFARSIT FEREASTRA PROFIT SPECIALITATE
 
 
 
         ///// INCEPUT FEREASTRA PROFIT CENTRU
-        profitCentruFrame = new JFrame("Profit specialitate");
+        profitCentruFrame = new JFrame("Profit centru");
         profitCentruPanel = new JPanel(new MigLayout());
         createProfitCentruTable();
 
+        profitCentruFrame.setPreferredSize(new Dimension(300, 120));
         profitCentruFrame.setContentPane(profitCentruPanel);
         profitCentruFrame.pack();
         profitCentruFrame.setLocationRelativeTo(null);
-        profitCentruFrame.setResizable(false);
+
         ///// SFARSIT FEREASTRA PROFIT CENTRU
 
 
@@ -255,6 +240,33 @@ public class ContabilView extends BasicView{
         }
     }
 
+    public void replaceSpecialitateLunaCB(ArrayList<String> strings)
+    {
+        profitSpecialitateLunaCB.removeAllItems();
+        for(String s: strings)
+        {
+            profitSpecialitateLunaCB.addItem(s);
+        }
+    }
+
+    public void replaceProfitMedicLunaCB(ArrayList<String> strings)
+    {
+        profitMedicLunaCB.removeAllItems();
+        for(String s: strings)
+        {
+            profitMedicLunaCB.addItem(s);
+        }
+    }
+
+    public void replaceProfitCentruLunaCB(ArrayList<String> strings)
+    {
+        profitCentruLunaCB.removeAllItems();
+        for(String s: strings)
+        {
+            profitCentruLunaCB.addItem(s);
+        }
+    }
+
 
     public JComboBox<String> getAngajatCB() { return angajatCB;}
     public JButton getProfitMedicButton() {
@@ -281,8 +293,9 @@ public class ContabilView extends BasicView{
     public JFrame getProfitSpecialitateFrame() {
         return profitSpecialitateFrame;
     }
-    public JTextField getSalarAngajatTF() {  return salarAngajatTF;     }
+    public JTextField getSalarAngajatTF() {  return salarAngajatTF;   }
 
-    public JComboBox<String> getSpecialitateMedicalaCB() { return specialitateMedicalaCB; }
 }
+
+
 

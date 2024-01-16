@@ -7,6 +7,8 @@ import View.ContabilView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class ContabilController extends BasicController implements ActionListener {
@@ -19,6 +21,8 @@ public class ContabilController extends BasicController implements ActionListene
         cm = (ContabilModel)model;
         cv = (ContabilView)view;
         cv.replaceSelectMedicCB(cm.getAngajatiNumePrenumeFromFunctieAndCentru("medic",cm.getCurrentAngajat().getId_centru()));
+        cv.replaceSelectSpecialitateCB(cm.getSpecializariFromMedicId(cm.getIdMedicFromCentruIdSiFunctie(cm.getCurrentAngajat().getId_centru(),"medic")));
+        cv.replaceSelectAngajatCB(cm.getAngajatiNumePrenumeFromCentru(cm.getCurrentAngajat().getId_centru()));
         cv.getProfitMedicButton().addActionListener(this);
         cv.getProfitCentruButton().addActionListener(this);
         cv.getProfitSpecialitateButton().addActionListener(this);
@@ -29,12 +33,15 @@ public class ContabilController extends BasicController implements ActionListene
     public void actionPerformed(ActionEvent e) {
         super.actionPerformed(e);
         if(e.getSource() == cv.getProfitMedicButton()) {
+            cv.replaceProfitMedicLunaCB(new ArrayList<String>(Arrays.asList("Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie")));
             cv.getProfitMedicFrame().setVisible(true);
         }
         if (e.getSource() == cv.getProfitSpecialitateButton()) {
+            cv.replaceSpecialitateLunaCB(new ArrayList<String>(Arrays.asList("Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie")));
             cv.getProfitSpecialitateFrame().setVisible(true);
         }
         if (e.getSource() == cv.getProfitCentruButton()) {
+            cv.replaceProfitCentruLunaCB(new ArrayList<String>(Arrays.asList("Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie")));
             cv.getProfitCentruFrame().setVisible(true);
         }
         if(e.getSource()==cv.getBV_m2Button())
@@ -48,15 +55,6 @@ public class ContabilController extends BasicController implements ActionListene
             cv.getSalarAngajatTF().setText(Integer.valueOf(cm.getSalariuAngajatFromNumePrenume(Objects.requireNonNull(cv.getAngajatCB().getSelectedItem()).toString())).toString());
         }
 
-        if(e.getSource() == cv.getSalarAngajatButton()){
-
-            cv.getSalarAngajatTF().setText(Integer.valueOf(cm.getSalariuAngajatFromNumePrenume(Objects.requireNonNull(cv.getAngajatCB().getSelectedItem()).toString())).toString());
-        }
-
-        if(e.getSource() == cv.getProfitSpecialitateButton()){
-
-
-        }
 
     }
 }
