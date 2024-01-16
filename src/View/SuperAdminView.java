@@ -2,6 +2,7 @@ package View;
 
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.prompt.PromptSupport;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -109,7 +110,12 @@ public class SuperAdminView extends JFrame {
 
     private ImageIcon editButtonIcon;
 
-
+/////////////
+    private JTextField aajf_procentTF;
+    private JTextField aajf_codParafaTF;
+    private JTextField aajf_titluStiintificTF;
+    private JTextField aajf_postDidacticTF;
+/////////////
     private void beautifyButton(JButton button)
     {
         button.setFocusPainted(false); // Remove focus border
@@ -502,6 +508,7 @@ public class SuperAdminView extends JFrame {
         selectFunctiiCB.setPreferredSize(new Dimension(125,30));
         aajf_tfOrCb[8].setPreferredSize(new Dimension(250,30));
 
+
         aajf_l[0].setText("Nume");
         aajf_l[1].setText("Prenume");
         aajf_l[2].setText("CNP");
@@ -522,6 +529,25 @@ public class SuperAdminView extends JFrame {
             aajf_mainPanel.add(aajf_tfOrCb[i],"span");
         }
 
+
+//////////
+        aajf_procentTF = new JTextField();
+        PromptSupport.setPrompt("Procent", aajf_procentTF);
+
+        aajf_codParafaTF = new JTextField();
+        PromptSupport.setPrompt("Cod parafa", aajf_codParafaTF);
+
+        aajf_titluStiintificTF = new JTextField();
+        PromptSupport.setPrompt("Titlu Stiintific", aajf_titluStiintificTF);
+
+        aajf_postDidacticTF = new JTextField();
+        PromptSupport.setPrompt("Post didactic", aajf_postDidacticTF);
+
+        aajf_mainPanel.add(aajf_postDidacticTF);
+        aajf_mainPanel.add(aajf_codParafaTF, "gapx 10");
+        aajf_mainPanel.add(aajf_titluStiintificTF, "gapx 10");
+        aajf_mainPanel.add(aajf_procentTF, "gapx 10, span");
+/////////
         aajf_mainPanel.add(aajf_SubmitButton,"gapy 20, center,span");
 
 
@@ -552,6 +578,22 @@ public class SuperAdminView extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public JTextField getAajf_procentTF() {
+        return aajf_procentTF;
+    }
+
+    public JTextField getAajf_codParafaTF() {
+        return aajf_codParafaTF;
+    }
+
+    public JTextField getAajf_titluStiintificTF() {
+        return aajf_titluStiintificTF;
+    }
+
+    public JTextField getAajf_postDidacticTF() {
+        return aajf_postDidacticTF;
     }
 
     public void showErrorMessage(String message)
