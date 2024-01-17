@@ -574,7 +574,6 @@ public class BigModel {
                     callableStatement.setString(16, procent);
                     callableStatement.setInt(17, Integer.parseInt(id_centru));
                     int rowsAffected = callableStatement.executeUpdate();
-
                     if (rowsAffected > 0) {
                         // Successfully inserted
                         return true;

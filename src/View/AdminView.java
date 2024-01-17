@@ -197,6 +197,7 @@ public class AdminView extends BasicView{
         return selectCentruTF;
     }
 
+
     public void showErrorMessage(String message)
     {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);

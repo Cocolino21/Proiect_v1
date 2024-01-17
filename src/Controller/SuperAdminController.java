@@ -139,6 +139,7 @@ public class SuperAdminController extends BigController implements ActionListene
             if(av.getSelectCentruCB2().getSelectedItem()!=null) {
                 av.setAngajatiRowData(am.getAngajati(am.getCentruIdFromNumeCentru(Objects.requireNonNull(av.getSelectCentruCB2().getSelectedItem()).toString())));
 
+
             }
             av.reAddToAngajatiView();
             if(av.getSelectDeptCB().getSelectedItem()!=null) {

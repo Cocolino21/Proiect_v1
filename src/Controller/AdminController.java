@@ -15,6 +15,7 @@ import java.util.Objects;
 
 public class AdminController extends BasicController implements ActionListener {
 
+
     AdminView av;
     AdminModel am;
     boolean nowModifAngajat=false;

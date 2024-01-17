@@ -3,6 +3,7 @@ package Model;
 import java.sql.*;
 import java.util.ArrayList;
 
+
 public class AdminModel extends BigModel{
     private Connection connection;
     public AdminModel() {
