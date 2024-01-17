@@ -56,6 +56,7 @@ public class BigModel {
     }
 
 
+
     public Object[][] getAngajati(int centru_id)
     {
 
@@ -399,6 +400,29 @@ public class BigModel {
     }
 
 
+    public boolean deleteCerereFromDB(int id_angajat, java.sql.Date data_inceput) {
+        try {
+
+            CallableStatement callableStatement = connection.prepareCall(" CALL DeleteCerere(?,?);");
+            callableStatement.setInt(1, id_angajat);
+            callableStatement.setDate(2, data_inceput);
+            int rowsAffected = callableStatement.executeUpdate();
+            System.out.println(data_inceput);
+            if (rowsAffected > 0) {
+                // Successfully deleted
+                return true;
+            } else {
+                // fails
+                return false;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return false;
+        }
+    }
+
+
     public boolean insertCerereConcediu(int currentID, java.sql.Date beginDate, java.sql.Date endDate, String motiv)
     {
         try{
@@ -594,7 +618,25 @@ public class BigModel {
     }
 
 
+    public boolean insertInTabelaConcediu(int idAngajat, java.sql.Date data_inceput, java.sql.Date data_sfarsit, String motiv) {
 
+        try {
+            CallableStatement callableStatement = connection.prepareCall(" CALL InsertConcediu(?, ?, ?, ?);");
+            callableStatement.setInt(1, idAngajat);
+            callableStatement.setDate(2, data_inceput);
+            callableStatement.setDate(3, data_sfarsit);
+            callableStatement.setString(4, motiv);
+            int rowsAffected = callableStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (SQLException e) {
+            return false;
+        }
+    }
 
     public void searchInTable(String searchText, JTable table, DefaultTableModel tableModel) {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);

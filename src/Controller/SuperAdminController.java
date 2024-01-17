@@ -243,7 +243,6 @@ public class SuperAdminController extends BigController implements ActionListene
                 if(!checkForSuper.toString().equals("super_admin")) {
                     if (am.deleteAngajatFromDB((int) selectedValue)) {
                         av.setAngajatiRowData(am.getAngajati(-1));
-
                         av.reAddToAngajatiView();
                         am.clearSearch(av.getAngajatiTable());
                         av.getAddAngajatJFrame().setVisible(false);

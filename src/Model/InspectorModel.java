@@ -1,8 +1,6 @@
 package Model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class InspectorModel extends BigModel{
     private Connection connection;
@@ -11,6 +9,37 @@ public class InspectorModel extends BigModel{
             connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "");
         } catch(SQLException se) {
             se.printStackTrace();
+        }
+    }
+
+    public Object[][] getCereriForResurse(int idAngajat)
+    {
+
+        Object[][] entries;
+        try {
+            CallableStatement callableStatement = connection.prepareCall("CALL GetCereriConcediuByAngajatId(?, ?)");
+            callableStatement.setInt(1, idAngajat);
+            callableStatement.registerOutParameter(2, Types.INTEGER);
+            callableStatement.execute();
+            ResultSet resultSet = callableStatement.getResultSet();
+            int rowCount = callableStatement.getInt(2);
+            //System.out.println(rowCount);
+            int k=0;
+            entries = new Object[rowCount][4];
+            while (resultSet.next()) {
+
+                entries[k][0] = resultSet.getInt("id_angajat");
+                entries[k][1] = resultSet.getDate("data_inceput");
+                entries[k][2] = resultSet.getDate("data_sfarsit");
+                String motiv = resultSet.getString("motiv");
+                entries[k][3] = motiv;
+                k++;
+            }
+
+            return entries;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
