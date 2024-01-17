@@ -106,7 +106,6 @@ public class BasicView extends JFrame {
                 BV_RP_m1Panel.remove(BV_userOrarTextFields_end[i]);
                 BV_RP_m1Panel.remove(BV_userOrarTextFields_begin[i]);
             }
-
         }
         BV_RP_m1Panel.setPreferredSize(new Dimension(720,520));
         BV_rightPanel.removeAll();
@@ -217,7 +216,7 @@ public class BasicView extends JFrame {
             BV_userOrarTextFields_end[i] = new JTextField();
             BV_orar[i] = new JLabel();
             BV_orar[i].setFont(new Font(Font.SANS_SERIF,Font.BOLD,13));
-            BV_orar[i].setPreferredSize(new Dimension(100, 30));
+            BV_orar[i].setPreferredSize(new Dimension(60, 30));
             BV_userOrarTextFields_begin[i].setPreferredSize(new Dimension(100, 30));
             BV_userOrarTextFields_begin[i].setEditable(false);
             BV_userOrarTextFields_begin[i].setEnabled(false);

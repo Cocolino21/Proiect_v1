@@ -16,8 +16,6 @@ import java.util.Objects;
 
 public class SuperAdminView extends JFrame {
 
-
-
     private DefaultTableModel centreTableModel;
 
     private DefaultTableModel angajatiTableModel;

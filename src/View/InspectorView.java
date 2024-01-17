@@ -29,7 +29,7 @@ public class InspectorView extends BasicView {
 
     //////// VEZI ORAR
     private JFrame orarFrame;
-    private JPanel orarPanel;
+    private JPanel orarPanel = new JPanel();
     private JTextField[] zileSaptamaniiTF;
     private JLabel[] zileSaptamaniiLabel;
     /////// FINAL VEZI ORAR
@@ -44,11 +44,15 @@ public class InspectorView extends BasicView {
         inspectorM1Panel.add(veziOrarButton);
         inspectorM1Panel.add(veziCerereConcediuButton, "span");
         inspectorM1Panel.add(angajatiSP);
+        createOrarFrame();
+        inspectorM1Panel.add(orarPanel);
+
         reAddToBV_RP_m1Panel();
 
-        createOrarFrame();
     }
     public void createOrarFrame(){
+        orarPanel = new JPanel();
+        orarFrame = new JFrame();
         zileSaptamaniiLabel = new JLabel[7];
         zileSaptamaniiTF = new JTextField[7];
         for(int i=0; i<7; i++)
@@ -80,9 +84,8 @@ public class InspectorView extends BasicView {
     @Override
     public void reAddToBV_RP_m1Panel() {
         inspectorM1Panel.setPreferredSize(new Dimension(720,520));
-        BV_rightPanel.setLayout(new MigLayout("insets 10"));
         BV_rightPanel.removeAll();
-        BV_rightPanel.add(inspectorM1Panel);
+        BV_rightPanel.add(inspectorM1Panel, "gapx 10");
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
     }
