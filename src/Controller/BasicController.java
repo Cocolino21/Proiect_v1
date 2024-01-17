@@ -44,13 +44,13 @@ public class BasicController extends BigController implements ActionListener {
         }
         if(e.getSource()==mv.getBV_m1Button())
         {
-            for(int i = 0 ;i < 7; i++)
-            {
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-                ArrayList<Time> temp = mm.getOrarForSpecificAngajatId(mm.getCurrentAngajat().getId(),mv.getBV_orar()[i].getText());
-                mv.getBV_userOrarTextFields_begin()[i].setText( sdf.format(temp.getFirst()));
-                mv.getBV_userOrarTextFields_end()[i].setText(sdf.format(temp.getLast()));
-
+            if(!(mm.getCurrentAngajat().getFunctie().equals("inspector_resurse_um"))) {
+                for (int i = 0; i < 7; i++) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                    ArrayList<Time> temp = mm.getOrarForSpecificAngajatId(mm.getCurrentAngajat().getId(), mv.getBV_orar()[i].getText());
+                    mv.getBV_userOrarTextFields_begin()[i].setText( sdf.format(temp.getFirst()));
+                    mv.getBV_userOrarTextFields_end()[i].setText(sdf.format(temp.getLast()));
+                }
             }
             mv.reAddToBV_RP_m1Panel();
         }

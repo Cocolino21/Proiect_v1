@@ -93,6 +93,38 @@ public class BigModel {
         }
     }
 
+    public Object[][] getAngajatiForResurse(int centru_id)
+    {
+
+        Object[][] entries;
+        try {
+            CallableStatement callableStatement = connection.prepareCall("{CALL GetAngajatiByCentruId(?, ?)}");
+            callableStatement.setInt(1, centru_id);
+            callableStatement.registerOutParameter(2, Types.INTEGER);
+            callableStatement.execute();
+            ResultSet resultSet = callableStatement.getResultSet();
+            int rowCount = callableStatement.getInt(2);
+
+            int k=0;
+            entries = new Object[rowCount][4];
+            while (resultSet.next()) {
+
+                entries[k][0] =  resultSet.getInt("id_angajat");
+                entries[k][1] = resultSet.getString("nume");
+                entries[k][2] = resultSet.getString("prenume");
+                String functie = resultSet.getString("functie");
+                entries[k][3] = functie;
+                k++;
+            }
+
+            return entries;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return null;
+        }
+    }
+
+
 
     public ArrayList<String> getPacientNumePrenumeFromId(int id_pacient)
     {
@@ -119,6 +151,8 @@ public class BigModel {
             return null;
         }
     }
+
+
 
 
     public void sortTable(JTable table, int columnIndex) {

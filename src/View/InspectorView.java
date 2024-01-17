@@ -7,6 +7,7 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class InspectorView extends BasicView {
 
@@ -28,7 +29,7 @@ public class InspectorView extends BasicView {
     //////////////// FINAL ACCEPTA SAU NU CERERI CONCEDIU
 
     //////// VEZI ORAR
-    private JFrame orarFrame;
+    private JFrame orarFrame = new JFrame();
     private JPanel orarPanel = new JPanel();
     private JTextField[] zileSaptamaniiTF;
     private JLabel[] zileSaptamaniiLabel;
@@ -44,15 +45,11 @@ public class InspectorView extends BasicView {
         inspectorM1Panel.add(veziOrarButton);
         inspectorM1Panel.add(veziCerereConcediuButton, "span");
         inspectorM1Panel.add(angajatiSP);
-        createOrarFrame();
-        inspectorM1Panel.add(orarPanel);
-
         reAddToBV_RP_m1Panel();
-
+        createOrarFrame();
     }
+
     public void createOrarFrame(){
-        orarPanel = new JPanel();
-        orarFrame = new JFrame();
         zileSaptamaniiLabel = new JLabel[7];
         zileSaptamaniiTF = new JTextField[7];
         for(int i=0; i<7; i++)
@@ -84,10 +81,25 @@ public class InspectorView extends BasicView {
     @Override
     public void reAddToBV_RP_m1Panel() {
         inspectorM1Panel.setPreferredSize(new Dimension(720,520));
+        BV_rightPanel.setLayout(new MigLayout("insets 10"));
         BV_rightPanel.removeAll();
-        BV_rightPanel.add(inspectorM1Panel, "gapx 10");
+        BV_rightPanel.add(inspectorM1Panel);
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
+    }
+
+    public void reAddToInspectorM1Panel()
+    {
+        inspectorM1Panel.removeAll();
+        updateAngajatiPanel();
+        inspectorM1Panel.add(veziOrarButton);
+        inspectorM1Panel.add(veziCerereConcediuButton, "span");
+        inspectorM1Panel.add(angajatiSP);
+
+    }
+
+    public void replaceTabelaAngajati(Object[][] tabelAngajati) {
+
     }
 
     public void updateAngajatiPanel() {
@@ -109,6 +121,12 @@ public class InspectorView extends BasicView {
         this.getContentPane().repaint();
     }
 
+    public void setAngajatiRowData(Object[][] angajatiRowData) { this.angajatiRowData = angajatiRowData; }
+
+    public Object[][] getAngajatiRowData() {
+        return angajatiRowData;
+    }
+
     public JButton getVeziOrarButton() {
         return veziOrarButton;
     }
@@ -116,4 +134,11 @@ public class InspectorView extends BasicView {
     public JFrame getOrarFrame() {
         return orarFrame;
     }
+
+    public JButton getVeziCerereConcediuButton() { return veziCerereConcediuButton; }
+
+    public JButton getAcceptConcediuButton() { return acceptConcediuButton; }
+
+    public JTable getAngajatiTable() { return angajatiTable; }
+
 }
