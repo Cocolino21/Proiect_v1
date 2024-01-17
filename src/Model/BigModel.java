@@ -488,11 +488,54 @@ public class BigModel {
         }
     }
 
+    public boolean updateMedic(int id_angajat, String nume, String prenume, String cnp, String adresa, String nrTelefon, String eMail, String iBan, String nrContract, String functie, String salariuLunar, String username, String parola, String id_centru, String codParafa, String titluStiintific, String postDidactic, int procent){
+        if(nume.isEmpty()||prenume.isEmpty()||cnp.isEmpty()||adresa.isEmpty()||nrTelefon.isEmpty()||eMail.isEmpty()||iBan.isEmpty()||nrContract.isEmpty()||functie.isEmpty()||salariuLunar.isEmpty()||username.isEmpty()||parola.isEmpty()||id_centru.isEmpty())
+            return false;
+        else {
+            {
+                try {
+                    CallableStatement callableStatement = connection.prepareCall(" CALL UpdateMedicById(?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+                    callableStatement.setInt(1,id_angajat);
+                    callableStatement.setString(2, cnp);
+                    callableStatement.setString(3, nume);
+                    callableStatement.setString(4, prenume);
+                    callableStatement.setString(5, adresa);
+                    callableStatement.setString(6, nrTelefon);
+                    callableStatement.setString(7, eMail);
+                    callableStatement.setString(8, iBan);
+                    callableStatement.setInt(9, Integer.parseInt(nrContract));
+                    callableStatement.setString(10, functie);
+                    callableStatement.setInt(11, Integer.parseInt(salariuLunar));
+                    callableStatement.setString(12, username);
+                    callableStatement.setString(13, parola);
+                    callableStatement.setInt(14, Integer.parseInt(id_centru));
+                    callableStatement.setString(15, codParafa);
+                    callableStatement.setString(16, titluStiintific);
+                    callableStatement.setString(17, postDidactic);
+                    callableStatement.setInt(18, procent);
+                    int rowsAffected = callableStatement.executeUpdate();
 
+                    if (rowsAffected > 0) {
+                        // Successfully inserted
+                        return true;
+                    } else {
+                        // Insertion failed
+                        return false;
+                    }
+
+
+                } catch (SQLException e) {
+                    return false;
+                }
+            }
+        }
+    }
     public boolean updateAngajat(int id_angajat, String nume, String prenume, String cnp, String adresa, String nrTelefon, String eMail, String iBan, String nrContract, String functie, String salariuLunar, String username, String parola, String id_centru)
     {
         if(nume.isEmpty()||prenume.isEmpty()||cnp.isEmpty()||adresa.isEmpty()||nrTelefon.isEmpty()||eMail.isEmpty()||iBan.isEmpty()||nrContract.isEmpty()||functie.isEmpty()||salariuLunar.isEmpty()||username.isEmpty()||parola.isEmpty()||id_centru.isEmpty())
+        {
             return false;
+        }
         else {
             {
                 try {
@@ -517,18 +560,16 @@ public class BigModel {
                         // Successfully inserted
                         return true;
                     } else {
+
                         // Insertion failed
                         return false;
                     }
-
-
                 } catch (SQLException e) {
+
                     return false;
                 }
             }
         }
-
-
     }
     public boolean insertMedicAngajat(String nume, String prenume, String cnp, String adresa, String nrTelefon, String eMail, String iBan, String nrContract, String functie, String salariuLunar, String username, String parola, String id_centru, String cod_parafa, String titlu_stiintific, String post_didactic, String procent )
     {
@@ -557,7 +598,6 @@ public class BigModel {
                     callableStatement.setString(16, procent);
                     callableStatement.setInt(17, Integer.parseInt(id_centru));
                     int rowsAffected = callableStatement.executeUpdate();
-
                     if (rowsAffected > 0) {
                         // Successfully inserted
                         return true;

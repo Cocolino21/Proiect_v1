@@ -56,6 +56,14 @@ public class SuperAdminController extends BigController implements ActionListene
             av.replaceComboBoxItems(am.getCenters());
             av.reAddToCentreView();
         }
+        if(e.getSource()==av.getSelectDeptCB2())
+        {
+            if(av.getSelectDeptCB2().getSelectedItem()!=null)
+            {
+                av.replaceComboBoxItems_FCT(am.getFunctionsForDept(Objects.requireNonNull(av.getSelectDeptCB2().getSelectedItem()).toString()));
+            }
+
+        }
         if(e.getSource()==av.getSearchCentruButton())
         {
             am.searchInTable(Objects.requireNonNull(av.getSelectCentruCB().getSelectedItem()).toString(),av.getCentreTable(),av.getCentreTableModel());
@@ -131,6 +139,7 @@ public class SuperAdminController extends BigController implements ActionListene
             if(av.getSelectCentruCB2().getSelectedItem()!=null) {
                 av.setAngajatiRowData(am.getAngajati(am.getCentruIdFromNumeCentru(Objects.requireNonNull(av.getSelectCentruCB2().getSelectedItem()).toString())));
 
+
             }
             av.reAddToAngajatiView();
             if(av.getSelectDeptCB().getSelectedItem()!=null) {
@@ -164,6 +173,7 @@ public class SuperAdminController extends BigController implements ActionListene
             av.replaceComboBoxItems_FCT(am.getFunctionsForDept(Objects.requireNonNull(av.getSelectDeptCB2().getSelectedItem()).toString()));
             av.replaceComboBoxItems3(am.getCenters());
         }
+
         if(e.getSource()==av.getAajf_SubmitButton())
         {
             if((!Objects.requireNonNull(av.getSelectFunctiiCB().getSelectedItem()).toString().equals("medic")) &&  (av.getAajf_codParafaTF().getText().equals("")) && (av.getAajf_titluStiintificTF().getText().equals(""))  &&  (av.getAajf_postDidacticTF().getText().equals(""))  &&  (av.getAajf_procentTF().getText().equals(""))  )
@@ -183,9 +193,44 @@ public class SuperAdminController extends BigController implements ActionListene
                         }
                         av.getAddAngajatJFrame().setVisible(false);
 
+                    }else {
+                         av.showErrorMessage("Nu s-a putut adauga angajatul!");
+                     }
+                }else {
+                    if((!Objects.requireNonNull(av.getSelectFunctiiCB().getSelectedItem()).toString().equals("medic")) &&  (av.getAajf_codParafaTF().getText().equals("")) && (av.getAajf_titluStiintificTF().getText().equals(""))  &&  (av.getAajf_postDidacticTF().getText().equals(""))  &&  (av.getAajf_procentTF().getText().equals(""))  ) {
+                        if (am.updateAngajat(am.getAngajatIdFromUsername(((JTextField) av.getAajf_tfOrCb()[10]).getText()), ((JTextField) av.getAajf_tfOrCb()[0]).getText(), ((JTextField) av.getAajf_tfOrCb()[1]).getText(), ((JTextField) av.getAajf_tfOrCb()[2]).getText(), ((JTextField) av.getAajf_tfOrCb()[3]).getText(), ((JTextField) av.getAajf_tfOrCb()[4]).getText(), ((JTextField) av.getAajf_tfOrCb()[5]).getText(), ((JTextField) av.getAajf_tfOrCb()[6]).getText(), ((JTextField) av.getAajf_tfOrCb()[7]).getText(), Objects.requireNonNull(av.getSelectFunctiiCB().getSelectedItem()).toString(), ((JTextField) av.getAajf_tfOrCb()[9]).getText(), ((JTextField) av.getAajf_tfOrCb()[10]).getText(), ((JTextField) av.getAajf_tfOrCb()[11]).getText(), Integer.toString(am.getCentruIdFromNumeCentru(Objects.requireNonNull(av.getSelectCentruCB3().getSelectedItem()).toString())))) {
+                            av.setAngajatiRowData(am.getAngajati(-1));
+                            am.clearSearch(av.getAngajatiTable());
+                            av.reAddToAngajatiView();
+
+                            for (int i = 0; i < 13; i++) {
+                                if (i != 8 && i != 12)
+                                    ((JTextField) av.getAajf_tfOrCb()[i]).setText("");
+                                if (i == 11 || i == 10)
+                                    ((JTextField) av.getAajf_tfOrCb()[i]).setEditable(true);
+                            }
+                            av.getAddAngajatJFrame().setVisible(false);
+                        } else {
+                            av.showErrorMessage("Nu s-a putut edita angajatul!");
+                        }
+                    } else if(am.updateMedic(am.getAngajatIdFromUsername(((JTextField) av.getAajf_tfOrCb()[10]).getText()), ((JTextField) av.getAajf_tfOrCb()[0]).getText(), ((JTextField) av.getAajf_tfOrCb()[1]).getText(), ((JTextField) av.getAajf_tfOrCb()[2]).getText(), ((JTextField) av.getAajf_tfOrCb()[3]).getText(), ((JTextField) av.getAajf_tfOrCb()[4]).getText(), ((JTextField) av.getAajf_tfOrCb()[5]).getText(), ((JTextField) av.getAajf_tfOrCb()[6]).getText(), ((JTextField) av.getAajf_tfOrCb()[7]).getText(), Objects.requireNonNull(av.getSelectFunctiiCB().getSelectedItem()).toString(), ((JTextField) av.getAajf_tfOrCb()[9]).getText(), ((JTextField) av.getAajf_tfOrCb()[10]).getText(), ((JTextField) av.getAajf_tfOrCb()[11]).getText(), Integer.toString(am.getCentruIdFromNumeCentru(Objects.requireNonNull(av.getSelectCentruCB3().getSelectedItem()).toString())), av.getAajf_codParafaTF().getText(), av.getAajf_titluStiintificTF().getText(), av.getAajf_postDidacticTF().getText(), Integer.parseInt(av.getAajf_procentTF().getText())))
+                    {
+                        av.setAngajatiRowData(am.getAngajati(-1));
+                        am.clearSearch(av.getAngajatiTable());
+                        av.reAddToAngajatiView();
+
+                        for (int i = 0; i < 13; i++) {
+                            if (i != 8 && i != 12)
+                                ((JTextField) av.getAajf_tfOrCb()[i]).setText("");
+                            if (i == 11 || i == 10)
+                                ((JTextField) av.getAajf_tfOrCb()[i]).setEditable(true);
+                        }
+                        av.getAddAngajatJFrame().setVisible(false);
+
+
+                    } else {
+                        av.showErrorMessage("Nu s-a putut edita angajatul!");
                     }
-                } else {
-                    av.showErrorMessage("Nu s-a putut adauga angajatul!");
                 }
             } else if(av.getSelectFunctiiCB().getSelectedItem().equals("medic")){
                 if(!nowModifAngajat)
@@ -207,32 +252,33 @@ public class SuperAdminController extends BigController implements ActionListene
                         av.getAajf_postDidacticTF().setText("");
 
                         av.getAddAngajatJFrame().setVisible(false);
+                    }else {
+
+                        av.showErrorMessage("Nu s-a putut adauga angajatul!");
                     }
-                } else {
-                    av.showErrorMessage("Nu s-a putut adauga angajatul!");
-                }
-            } else {
-                if (am.updateAngajat(am.getAngajatIdFromUsername(((JTextField) av.getAajf_tfOrCb()[10]).getText()),((JTextField) av.getAajf_tfOrCb()[0]).getText(), ((JTextField) av.getAajf_tfOrCb()[1]).getText(), ((JTextField) av.getAajf_tfOrCb()[2]).getText(), ((JTextField) av.getAajf_tfOrCb()[3]).getText(), ((JTextField) av.getAajf_tfOrCb()[4]).getText(), ((JTextField) av.getAajf_tfOrCb()[5]).getText(), ((JTextField) av.getAajf_tfOrCb()[6]).getText(), ((JTextField) av.getAajf_tfOrCb()[7]).getText(), Objects.requireNonNull(av.getSelectFunctiiCB().getSelectedItem()).toString(), ((JTextField) av.getAajf_tfOrCb()[9]).getText(), ((JTextField) av.getAajf_tfOrCb()[10]).getText(), ((JTextField) av.getAajf_tfOrCb()[11]).getText(), Integer.toString(am.getCentruIdFromNumeCentru(Objects.requireNonNull(av.getSelectCentruCB3().getSelectedItem()).toString())))) {
-                    av.setAngajatiRowData(am.getAngajati(-1));
-                    am.clearSearch(av.getAngajatiTable());
-                    av.reAddToAngajatiView();
+                }else {
+                     if(am.updateMedic(am.getAngajatIdFromUsername(((JTextField) av.getAajf_tfOrCb()[10]).getText()), ((JTextField) av.getAajf_tfOrCb()[0]).getText(), ((JTextField) av.getAajf_tfOrCb()[1]).getText(), ((JTextField) av.getAajf_tfOrCb()[2]).getText(), ((JTextField) av.getAajf_tfOrCb()[3]).getText(), ((JTextField) av.getAajf_tfOrCb()[4]).getText(), ((JTextField) av.getAajf_tfOrCb()[5]).getText(), ((JTextField) av.getAajf_tfOrCb()[6]).getText(), ((JTextField) av.getAajf_tfOrCb()[7]).getText(), Objects.requireNonNull(av.getSelectFunctiiCB().getSelectedItem()).toString(), ((JTextField) av.getAajf_tfOrCb()[9]).getText(), ((JTextField) av.getAajf_tfOrCb()[10]).getText(), ((JTextField) av.getAajf_tfOrCb()[11]).getText(), Integer.toString(am.getCentruIdFromNumeCentru(Objects.requireNonNull(av.getSelectCentruCB3().getSelectedItem()).toString())), av.getAajf_codParafaTF().getText(), av.getAajf_titluStiintificTF().getText(), av.getAajf_postDidacticTF().getText(), Integer.parseInt(av.getAajf_procentTF().getText())))
+                    {
+                        av.setAngajatiRowData(am.getAngajati(-1));
+                        am.clearSearch(av.getAngajatiTable());
+                        av.reAddToAngajatiView();
 
-                    for (int i = 0; i < 13; i++) {
-                        if (i != 8 && i != 12)
-                            ((JTextField) av.getAajf_tfOrCb()[i]).setText("");
-                        if (i == 11||i==10)
-                            ((JTextField) av.getAajf_tfOrCb()[i]).setEditable(true);
+                        for (int i = 0; i < 13; i++) {
+                            if (i != 8 && i != 12)
+                                ((JTextField) av.getAajf_tfOrCb()[i]).setText("");
+                            if (i == 11 || i == 10)
+                                ((JTextField) av.getAajf_tfOrCb()[i]).setEditable(true);
+                        }
+                        av.getAddAngajatJFrame().setVisible(false);
+
+                    } else {
+                        av.showErrorMessage("Nu s-a putut edita angajatul!");
                     }
-                    av.getAddAngajatJFrame().setVisible(false);
-
-
-                } else {
-                    av.showErrorMessage("Nu s-a putut edita angajatul!");
                 }
-
             }
 
         }
+
         if(e.getSource()==av.getRemoveAngajatButton())
         {
             int selectedRow = av.getAngajatiTable().getSelectedRow();
@@ -259,7 +305,6 @@ public class SuperAdminController extends BigController implements ActionListene
         }
         if(e.getSource()==av.getEditAngajatButton())
         {
-
             nowModifAngajat = true;
             int selectedRow = av.getAngajatiTable().getSelectedRow();
 
@@ -292,6 +337,7 @@ public class SuperAdminController extends BigController implements ActionListene
                                 av.getSelectDeptCB2().setSelectedItem(dept);
                                 av.replaceComboBoxItems_FCT(am.getFunctionsForDept(Objects.requireNonNull(av.getSelectDeptCB2().getSelectedItem()).toString()));
                                 av.getSelectFunctiiCB().setSelectedItem(functie);
+
                             } else {
                                 String centru = am.getCentruNumeFromCentruId(Integer.parseInt(temp.get(i)));
 
@@ -310,15 +356,6 @@ public class SuperAdminController extends BigController implements ActionListene
                 av.getAddAngajatJFrame().setVisible(false);
                 av.showErrorMessage("Nu ai selectat un angajat");
             }
-
-        }
-        if(e.getSource()==av.getSelectDeptCB2())
-        {
-            if(av.getSelectDeptCB2().getSelectedItem()!=null)
-            {
-                av.replaceComboBoxItems_FCT(am.getFunctionsForDept(Objects.requireNonNull(av.getSelectDeptCB2().getSelectedItem()).toString()));
-            }
-
         }
 
         if(e.getSource()==av.getBackButton())

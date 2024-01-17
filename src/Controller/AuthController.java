@@ -62,7 +62,7 @@ public class AuthController implements ActionListener {
                 InspectorView view_inspector = new InspectorView(currentAngajat);
                 InspectorModel model_inspector = new InspectorModel();
                 model_inspector.setCurrentAngajat(currentAngajat);
-                InspectorController conroller_inspector = new InspectorController(view_inspector, model_inspector);
+                InspectorController controller_inspector = new InspectorController(view_inspector, model_inspector);
                 break;
             case 6:
                 AdminView view_admin = new AdminView(currentAngajat);
@@ -72,6 +72,8 @@ public class AuthController implements ActionListener {
                 break;
         }
     }
+
+
 
 
     @Override

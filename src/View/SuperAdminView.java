@@ -16,8 +16,6 @@ import java.util.Objects;
 
 public class SuperAdminView extends JFrame {
 
-
-
     private DefaultTableModel centreTableModel;
 
     private DefaultTableModel angajatiTableModel;
@@ -652,6 +650,7 @@ public class SuperAdminView extends JFrame {
     public JButton getBackButton() {
         return backButton;
     }
+
 
     public JButton getAajf_SubmitButton() {
         return aajf_SubmitButton;

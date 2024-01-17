@@ -32,6 +32,7 @@ public class BasicController extends BigController implements ActionListener {
 
     }
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==mv.getBV_logOutButton())
