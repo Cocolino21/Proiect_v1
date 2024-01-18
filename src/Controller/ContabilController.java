@@ -22,7 +22,7 @@ public class ContabilController extends BasicController implements ActionListene
         cm = (ContabilModel)model;
         cv = (ContabilView)view;
         cv.replaceSelectMedicCB(cm.getAngajatiNumePrenumeFromFunctieAndCentru("medic",cm.getCurrentAngajat().getId_centru()));
-        cv.replaceSelectSpecialitateCB(cm.getSpecializariFromMedicId(cm.getIdMedicFromCentruIdSiFunctie(cm.getCurrentAngajat().getId_centru(),"medic")));
+        cv.replaceSelectSpecialitateCB(cm.getAllMedicsFromCentru(cm.getCurrentAngajat().getId_centru()));
         cv.replaceSelectAngajatCB(cm.getAngajatiNumePrenumeFromCentru(cm.getCurrentAngajat().getId_centru()));
         cv.getProfitMedicButton().addActionListener(this);
         cv.getProfitCentruButton().addActionListener(this);
@@ -52,7 +52,7 @@ public class ContabilController extends BasicController implements ActionListene
         {
             cv.replaceSelectMedicCB(cm.getAngajatiNumePrenumeFromFunctieAndCentru("medic",cm.getCurrentAngajat().getId_centru()));
             cv.replaceSelectAngajatCB(cm.getAngajatiNumePrenumeFromCentru(cm.getCurrentAngajat().getId_centru()));
-            cv.replaceSelectSpecialitateCB(cm.getSpecializariFromMedicId(cm.getIdMedicFromCentruIdSiFunctie(cm.getCurrentAngajat().getId_centru(),"medic")));
+            cv.replaceSelectSpecialitateCB(cm.getAllMedicsFromCentru(cm.getCurrentAngajat().getId_centru()));
         }
         if(e.getSource() == cv.getSalarAngajatButton()){
 
@@ -60,15 +60,19 @@ public class ContabilController extends BasicController implements ActionListene
         }
 
         if(e.getSource() == cv.getVeziProfitSpecialitateButton()){
-            //cm.getProfitForSpecializare(cv.getProfitSpecialitateTF(),cv.getProfitSpecialitateLunaCB());
+            int x = cm.getProfitForSpecializare(cv.getSpecialitateMedicalaCB().getSelectedItem().toString(), cv.getProfitSpecialitateLunaCB().getSelectedItem().toString(), cv.getProfitSpecialitateAnTF().getSelectedText());
+            cv.setProfitSpecialitateTF(x);
         }
 
         if(e.getSource() == cv.getVeziProfitMedicButton()){
-
+            int idAngajat = cm.getIdAngajatFromNumePrenume(cv.getAngajatCB().getSelectedItem().toString());
+            int suma = cm.getProfitPeLunaPentruAngajat(idAngajat, cv.getProfitMedicLunaCB().getSelectedItem().toString(), cv.getProfitMedicAnTF().getSelectedText()  );
+            cv.setProfitMedicTF(suma);
         }
 
         if(e.getSource() == cv.getVeziProfitCentruButton()){
-
+            int suma = cm.getProfitForCentru(cm.getCurrentAngajat().getId_centru(), cv.getProfitCentruAnTfToString(), cv.getProfitCentruLunaCB().getSelectedItem().toString());
+            cv.setProfitCentruTF(suma);
         }
 
 

@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 
 public class ContabilView extends BasicView{
@@ -222,6 +224,10 @@ public class ContabilView extends BasicView{
         }
     }
 
+    public void setProfitSpecialitateTF(int profitSpecialitateTF) {
+        this.profitSpecialitateTF.setText(String.valueOf(profitSpecialitateTF));
+    }
+
     public void replaceSelectAngajatCB(ArrayList<String> strings)
     {
         angajatCB.removeAllItems();
@@ -234,10 +240,16 @@ public class ContabilView extends BasicView{
     public void replaceSelectSpecialitateCB(ArrayList<String> strings)
     {
         specialitateMedicalaCB.removeAllItems();
-        for(String s: strings)
+        HashSet<String> set = new HashSet<>(strings);
+        List<String> strings1 = new ArrayList<>(set);
+        for(String s: strings1)
         {
             specialitateMedicalaCB.addItem(s);
         }
+    }
+
+    public JTextField getProfitSpecialitateAnTF() {
+        return profitSpecialitateAnTF;
     }
 
     public void replaceSpecialitateLunaCB(ArrayList<String> strings)
@@ -311,6 +323,38 @@ public class ContabilView extends BasicView{
         return veziProfitSpecialitateButton;
     }
 
+    public String getProfitCentruAnTfToString(){
+        return profitCentruAnTF.getText();
+    }
+    public JTextField getProfitCentruAnTF() {
+        return profitCentruAnTF;
+    }
+    public void setProfitMedicTF(int profitMedicTF) {
+        this.profitMedicTF.setText(String.valueOf(profitMedicTF));
+    }
+    public JComboBox<String> getProfitCentruLunaCB() {
+        return profitCentruLunaCB;
+    }
+
+    public JTextField getProfitMedicAnTF() {
+        return profitMedicAnTF;
+    }
+
+    public JComboBox<String> getProfitMedicLunaCB() {
+        return profitMedicLunaCB;
+    }
+
+    public void setProfitCentruTF(int profitCentruTF) {
+        this.profitCentruTF.setText(String.valueOf(profitCentruTF));
+    }
+
+    public JTextField getProfitMedicTF() {
+        return profitMedicTF;
+    }
+
+    public JComboBox<String> getSpecialitateMedicalaCB() {
+        return specialitateMedicalaCB;
+    }
 }
 
 

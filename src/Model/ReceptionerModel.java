@@ -84,7 +84,6 @@ public class ReceptionerModel extends BigModel{
         return sum;
 
     }
-
     public boolean insertBon(int id_raport, int suma_platita, java.sql.Date data_emitere)
     {
         try{
