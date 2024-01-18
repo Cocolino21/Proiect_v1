@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 
 public class InspectorController extends BasicController implements ActionListener {
     InspectorView  iv;
@@ -24,8 +25,13 @@ public class InspectorController extends BasicController implements ActionListen
         iv.getVeziCerereConcediuButton().addActionListener(this);
         iv.getAcceptConcediuButton().addActionListener(this);
         iv.getRefuzConcediuButton().addActionListener(this);
+        iv.getPersonalizeazaPretServiciiButton().addActionListener(this);
+        iv.getPersonalizeazaServiciiSubmitButton().addActionListener(this);
         iv.setAngajatiRowData(im.getAngajatiForResurse(im.getCurrentAngajat().getId_centru()));
+        iv.getSearchAngajatButton().addActionListener(this);
+        iv.getRefreshAngajatButton().addActionListener(this);
         iv.reAddToInspectorM1Panel();
+        iv.getPersonalizeazaServiciiForMedicCB().addActionListener(this);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -36,7 +42,14 @@ public class InspectorController extends BasicController implements ActionListen
             iv.reAddToInspectorM1Panel();
             iv.reAddToBV_RP_m1Panel();
         }
-
+        if(e.getSource()==iv.getSearchAngajatButton())
+        {
+            im.searchInTable(iv.getCautaAngajatTF().getText(),iv.getAngajatiTable(),iv.getAngajatiTableModel());
+        }
+        if(e.getSource()==iv.getRefreshAngajatButton())
+        {
+            im.clearSearch(iv.getAngajatiTable());
+        }
         if(e.getSource() == iv.getVeziOrarButton()) {
             iv.getOrarFrame().setVisible(true);
         }
@@ -91,6 +104,51 @@ public class InspectorController extends BasicController implements ActionListen
             }
             else{
                 iv.showErrorMessageIn("Nu ai selectat nici o cerere");
+            }
+        }
+        if(e.getSource()==iv.getPersonalizeazaPretServiciiButton())
+        {
+            int selectedRow = iv.getAngajatiTable().getSelectedRow();
+            if (selectedRow != -1) {
+                Object selectedValue = iv.getAngajatiTable().getValueAt(selectedRow, 0);
+                Object selectedValueFUNCTIE = iv.getAngajatiTable().getValueAt(selectedRow,3);
+                if(((String)selectedValueFUNCTIE).equals("medic"))
+                {
+                    iv.buidServiciiJFrame();
+                    iv.getPersonalizeazaServiciiJF().setVisible(true);
+                    iv.replaceServiciiForAngajatCB(im.getServiciiForMedic((int)selectedValue));
+
+
+                }
+                else {
+                    iv.BV_showErrorMessage("Angajatul selectat nu este medic!");
+                }
+
+            }
+            else{
+                iv.BV_showErrorMessage("Nu ai selectat niciun angajat");
+            }
+        }
+        if(e.getSource()==iv.getPersonalizeazaServiciiForMedicCB())
+        {
+            int selectedRow = iv.getAngajatiTable().getSelectedRow();
+            Object selectedValue = iv.getAngajatiTable().getValueAt(selectedRow, 0);
+            System.out.println("1");
+            iv.getPersonalizeazaServiciiPretTF().setText(Integer.valueOf(im.getPretForMedicServiciu((int)selectedValue,im.getServiciuIdFromServiciuNume(Objects.requireNonNull(iv.getPersonalizeazaServiciiForMedicCB().getSelectedItem()).toString()))).toString());
+            iv.getPersonalizeazaServiciiDurataTF().setText(Integer.valueOf(im.getDurataMinForMedicServiciu((int)selectedValue,im.getServiciuIdFromServiciuNume(Objects.requireNonNull(iv.getPersonalizeazaServiciiForMedicCB().getSelectedItem()).toString()))).toString());
+        }
+        if(e.getSource()==iv.getPersonalizeazaServiciiSubmitButton())
+        {
+            int selectedRow = iv.getAngajatiTable().getSelectedRow();
+            System.out.println(selectedRow);
+            if (selectedRow != -1) {
+                Object selectedValue = iv.getAngajatiTable().getValueAt(selectedRow, 0);
+                if (im.updateInTablePersonalizareServiciiMedic((int) selectedValue, im.getServiciuIdFromServiciuNume(Objects.requireNonNull(iv.getPersonalizeazaServiciiForMedicCB().getSelectedItem()).toString()), Integer.parseInt(iv.getPersonalizeazaServiciiPretTF().getText()), Integer.parseInt(iv.getPersonalizeazaServiciiDurataTF().getText()))) {
+                    iv.BV_showSuccesMessage("Actualizare reusita");
+                    iv.getPersonalizeazaServiciiJF().setVisible(false);
+                } else {
+                    iv.BV_showErrorMessage("Nu s-a putut modifica");
+                }
             }
         }
     }

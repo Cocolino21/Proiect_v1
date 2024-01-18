@@ -82,51 +82,8 @@ public class MedicModel extends BigModel{
     }
 
 
-    public ArrayList<String> getServiciiForRaport(int id_investigatie)
-    {
-        ArrayList<String> numeServAL = new ArrayList<>();
 
-        try {
-        CallableStatement callableStatement = connection.prepareCall("{CALL GetServiciiMedicaleForInvestigatie(?)}");
-        callableStatement.setInt(1, id_investigatie);
-        callableStatement.execute();
 
-        ResultSet resultSet = callableStatement.getResultSet();
-        while(resultSet.next())
-        {
-            numeServAL.add(resultSet.getString("nume_serviciu_result"));
-        }
-        return numeServAL;
-        }
-        catch(SQLException e)
-        {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public int getServiciuIdFromServiciuNume(String serviciuNume)
-    {
-        int temp = -1;
-        try {
-            String query = "SELECT * FROM `proiect_v1`.`serviciumedical` WHERE `nume_serviciu` = ?";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, serviciuNume);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while(resultSet.next())
-            {
-                temp = resultSet.getInt("id_serviciu");
-            }
-
-            return temp;
-
-        } catch (SQLException e) {
-            e.printStackTrace(); // Handle or log the exception as per your requirement
-            return -1;
-        }
-    }
 
 
 

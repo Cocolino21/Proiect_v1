@@ -12,6 +12,8 @@ import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class ReceptionerController extends BasicController implements ActionListener {
@@ -29,6 +31,7 @@ public class ReceptionerController extends BasicController implements ActionList
         rv.getAdaugaPacient().addActionListener(this);
         rv.setProgramariRowData(rm.getProgramari(rm.getCurrentAngajat().getId()));
         rv.getAdaugaProgramare().addActionListener(this);
+        rv.getButtonEmitereBonFiscal().addActionListener(this);
 
     }
 
@@ -90,7 +93,7 @@ public class ReceptionerController extends BasicController implements ActionList
 
 
 
-                    System.out.println("Converted SQL Time: " + sqlTime);
+
                 } catch (ParseException pe) {
                     // Handle parsing exception
                     pe.printStackTrace();
@@ -103,13 +106,41 @@ public class ReceptionerController extends BasicController implements ActionList
             int selectedRow = rv.getProgramariTable().getSelectedRow();
             if (selectedRow != -1)
             {
-                Object selectedValue = rv.getProgramariTable().getValueAt(selectedRow, 0);
+                Object selectedValue = rv.getProgramariTable().getValueAt(selectedRow, 8);
                     if (rm.deleteProgramareFromDB((int) selectedValue)) {
+
                         rv.setProgramariRowData(rm.getProgramari(rm.getCurrentAngajat().getId()));
                         rv.updateProgramariTable();
                         rv.reAddToReceptionerM3Panel();
                     }
             }
+        }
+        if(e.getSource()==rv.getButtonEmitereBonFiscal())
+        {
+            int selectedRow = rv.getProgramariTable().getSelectedRow();
+            // System.out.println(selectedRow);
+            if (selectedRow != -1) {
+                Object selectedValueFINALIZAT = rv.getProgramariTable().getValueAt(selectedRow, 7);
+                if((boolean) selectedValueFINALIZAT)
+                {
+                    Object selectedValueIDPROGRAMARE = rv.getProgramariTable().getValueAt(selectedRow, 8);
+                    LocalDate now = LocalDate.now();
+                    if(rm.insertBon((int)selectedValueIDPROGRAMARE, rm.calculeazaSumaPlatita((int)selectedValueIDPROGRAMARE,rm.getIdMedicFromIdProgramare((int)selectedValueIDPROGRAMARE)), java.sql.Date.valueOf(now)))
+                    {
+                        rv.BV_showSuccesMessage("Bon primit! \n" + "Suma incasata : " + rm.calculeazaSumaPlatita((int)selectedValueIDPROGRAMARE,rm.getIdMedicFromIdProgramare((int)selectedValueIDPROGRAMARE)) + "\nData curenta : \n" + now);
+                        rv.setProgramariRowData(rm.getProgramari(rm.getCurrentAngajat().getId()));
+                        rv.updateProgramariTable();
+                        rv.reAddToReceptionerM3Panel();
+                    }
+                    else {
+                        rv.BV_showErrorMessage("Bonul nu a putut fi scos");
+                    }
+                }
+                else{
+                    rv.BV_showErrorMessage("Programarea nu a fost parafata de medic");
+                }
+            }
+            //if(rm.insertBon())
         }
 
     }

@@ -27,6 +27,33 @@ public class BigModel {
     }
 
 
+    public int getIdMedicFromIdProgramare(int id_programare)
+    {
+        int id_medic=-1;
+        try {
+            String query = "SELECT * FROM `proiect_v1`.`programare` WHERE `id_programare` = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id_programare);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                id_medic = resultSet.getInt("id_medic");
+            }
+            return id_medic;
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return -1;
+        }
+    }
+
+
+
+
     public ArrayList<Time> getOrarForSpecificAngajatId(int id_angajat, String ziua_saptamanii)
     {
 
@@ -156,6 +183,8 @@ public class BigModel {
 
 
 
+
+
     public void sortTable(JTable table, int columnIndex) {
         TableRowSorter<TableModel> sorter = (TableRowSorter<TableModel>) table.getRowSorter();
 
@@ -172,6 +201,53 @@ public class BigModel {
     }
 
 
+    public ArrayList<String> getServiciiForRaport(int id_investigatie)
+    {
+        ArrayList<String> numeServAL = new ArrayList<>();
+
+        try {
+            CallableStatement callableStatement = connection.prepareCall("{CALL GetServiciiMedicaleForInvestigatie(?)}");
+            callableStatement.setInt(1, id_investigatie);
+            callableStatement.execute();
+
+            ResultSet resultSet = callableStatement.getResultSet();
+            while(resultSet.next())
+            {
+                numeServAL.add(resultSet.getString("nume_serviciu_result"));
+            }
+            return numeServAL;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public int getServiciuIdFromServiciuNume(String serviciuNume)
+    {
+        int temp = -1;
+        try {
+            String query = "SELECT * FROM `proiect_v1`.`serviciumedical` WHERE `nume_serviciu` = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, serviciuNume);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next())
+            {
+                temp = resultSet.getInt("id_serviciu");
+            }
+
+            return temp;
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return -1;
+        }
+    }
+
+
 
     public Object[][] getProgramari(int id_angajat) {
         Object[][] entries;
@@ -185,7 +261,7 @@ public class BigModel {
 
             ResultSet resultSet = callableStatement.getResultSet();
             int k = 0;
-            entries = new Object[rowCount][8];
+            entries = new Object[rowCount][9];
             while (resultSet.next()) {
 
                 entries[k][0] = resultSet.getInt("id_pacient");
@@ -197,6 +273,7 @@ public class BigModel {
                 entries[k][5] = getInfoForAngajat(id_m).get(0);
                 entries[k][6] = getInfoForAngajat(id_m).get(1);
                 entries[k][7] = resultSet.getBoolean("finalizat");
+                entries[k][8] = resultSet.getInt("id_programare");
                 k++;
             }
 
@@ -241,6 +318,77 @@ public class BigModel {
             return null;
         }
     }
+
+    public boolean updateInTablePersonalizareServiciiMedic(int id_medic, int id_serviciu, int pretNou, int durataMinNoua)
+    {
+        try {
+            String query = "UPDATE personalizare_servicii_medic SET pret = ?, durata_min = ? WHERE id_medic = ? AND id_serviciu = ?;\n";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, pretNou);
+            preparedStatement.setInt(2,durataMinNoua);
+            preparedStatement.setInt(3,id_medic);
+            preparedStatement.setInt(4,id_serviciu);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if(rowsAffected>0)
+                return true;
+            else
+                return false;
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public int getPretForMedicServiciu(int id_medic, int id_serviciu)
+    {
+        try {
+            String query = "SELECT * FROM personalizare_servicii_medic WHERE id_medic = ? AND id_serviciu = ?;\n";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,id_medic);
+            preparedStatement.setInt(2,id_serviciu);
+            preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.getResultSet();
+            while(resultSet.next())
+            {
+                return resultSet.getInt("pret");
+            }
+
+            return -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public int getDurataMinForMedicServiciu(int id_medic, int id_serviciu)
+    {
+        try {
+            String query = "SELECT * FROM personalizare_servicii_medic WHERE id_medic = ? AND id_serviciu = ?;\n";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,id_medic);
+            preparedStatement.setInt(2,id_serviciu);
+            preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.getResultSet();
+            while(resultSet.next())
+            {
+                return resultSet.getInt("durata_min");
+            }
+
+            return -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+
 
 
     public ArrayList<String>  getServiciiForMedic(int id_medic)
@@ -407,7 +555,7 @@ public class BigModel {
             callableStatement.setInt(1, id_angajat);
             callableStatement.setDate(2, data_inceput);
             int rowsAffected = callableStatement.executeUpdate();
-            System.out.println(data_inceput);
+
             if (rowsAffected > 0) {
                 // Successfully deleted
                 return true;

@@ -288,7 +288,7 @@ public class MedicView extends BasicView {
         for(String s: strings)
         {
             asistentMedicalCB.addItem(s);
-            System.out.println(s);
+
         }
     }
 
