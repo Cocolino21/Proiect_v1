@@ -51,7 +51,7 @@ public class BonFiscal{
         }
     }
 
-    public int getProfitPeLuna(int idMedic, String data){
+    public int getProfitPeLuna(int idMedic, String data, String an){
         int nrBonuri = 0;
         Object[][] entries;
         try{
@@ -87,7 +87,7 @@ public class BonFiscal{
                 default -> 1;
             };
             for(BonFiscal e :bonFiscalArrayList){
-                if(e.data.getMonthValue() == luna){
+                if(e.data.getMonthValue() == luna&& e.data.getYear() == Integer.parseInt(an)){
                 entries[k][0] = e.idMedic;
                 entries[k][1] = e.sumaIncasata;
                 entries[k][2] = e.data;

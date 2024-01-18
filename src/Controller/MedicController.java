@@ -51,7 +51,7 @@ public class MedicController extends BasicController implements ActionListener {
         }
         if(e.getSource() == mv.getVeziProfitButton())
         {
-            int suma = mm.getProfitPeLuna(mm.getCurrentAngajat().getId(), mv.getVeziProfitAlegeLunaCB().toString());
+            int suma = mm.getProfitPeLuna(mm.getCurrentAngajat().getId(), Objects.requireNonNull(mv.getVeziProfitAlegeLunaCB().getSelectedItem()).toString(),mv.getVeziProfitTF().getText());
             mv.setProfitTF(suma);
         }
 

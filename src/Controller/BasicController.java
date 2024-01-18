@@ -53,6 +53,8 @@ public class BasicController extends BigController implements ActionListener {
                     mv.getBV_userOrarTextFields_end()[i].setText(sdf.format(temp.getLast()));
                 }
 
+                mv.getBV_concediuActivBegin().setText(mm.getConcediuBegin(mm.getCurrentAngajat().getId()).toString());
+                mv.getBV_concediuActivEnd().setText(mm.getConcediuEnd(mm.getCurrentAngajat().getId()).toString());
             }
             mv.reAddToBV_RP_m1Panel();
         }

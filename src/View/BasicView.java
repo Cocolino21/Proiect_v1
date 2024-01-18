@@ -388,7 +388,21 @@ public class BasicView extends JFrame {
         return BV_ccjf_submitButton;
     }
 
+    public JTextField getBV_concediuActivBegin() {
+        return BV_concediuActivBegin;
+    }
 
+    public void setBV_concediuActivBegin(JTextField BV_concediuActivBegin) {
+        this.BV_concediuActivBegin = BV_concediuActivBegin;
+    }
+
+    public JTextField getBV_concediuActivEnd() {
+        return BV_concediuActivEnd;
+    }
+
+    public void setBV_concediuActivEnd(JTextField BV_concediuActivEnd) {
+        this.BV_concediuActivEnd = BV_concediuActivEnd;
+    }
 
     public JTextField getBV_ccjf_motivTF() {
         return BV_ccjf_motivTF;
