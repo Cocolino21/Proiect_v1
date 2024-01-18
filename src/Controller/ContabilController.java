@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Objects;
 
 public class ContabilController extends BasicController implements ActionListener {
@@ -27,6 +28,9 @@ public class ContabilController extends BasicController implements ActionListene
         cv.getProfitCentruButton().addActionListener(this);
         cv.getProfitSpecialitateButton().addActionListener(this);
         cv.getSalarAngajatButton().addActionListener(this);
+        cv.getVeziProfitCentruButton().addActionListener(this);
+        cv.getVeziProfitMedicButton().addActionListener(this);
+        cv.getVeziProfitSpecialitateButton().addActionListener(this);
 
     }
     @Override
@@ -53,6 +57,18 @@ public class ContabilController extends BasicController implements ActionListene
         if(e.getSource() == cv.getSalarAngajatButton()){
 
             cv.getSalarAngajatTF().setText(Integer.valueOf(cm.getSalariuAngajatFromNumePrenume(Objects.requireNonNull(cv.getAngajatCB().getSelectedItem()).toString())).toString());
+        }
+
+        if(e.getSource() == cv.getVeziProfitSpecialitateButton()){
+            //cm.getProfitForSpecializare(cv.getProfitSpecialitateTF(),cv.getProfitSpecialitateLunaCB());
+        }
+
+        if(e.getSource() == cv.getVeziProfitMedicButton()){
+
+        }
+
+        if(e.getSource() == cv.getVeziProfitCentruButton()){
+
         }
 
 

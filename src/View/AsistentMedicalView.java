@@ -117,12 +117,29 @@ public class AsistentMedicalView extends BasicView {
         this.getContentPane().repaint();
     }
 
+
     public JFrame getCompletareAnalizeFrame() {
         return completareAnalizeFrame;
     }
 
     public JButton getSubmitButton() {
         return submitButton;
+    }
+
+    public JTable getProgramariTable() {
+        return programariTable;
+    }
+
+    public void setProgramariRowData(Object[][] programariRowData) {
+        this.programariRowData = programariRowData;
+    }
+
+    public Object[][] getProgramariRowData() {
+        return programariRowData;
+    }
+
+    public JTextField getDetaliiTF() {
+        return detaliiTF;
     }
 
     public JButton getButtonCompletareAnalize() {

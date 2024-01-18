@@ -10,6 +10,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
@@ -52,6 +55,13 @@ public class InspectorController extends BasicController implements ActionListen
         }
         if(e.getSource() == iv.getVeziOrarButton()) {
             iv.getOrarFrame().setVisible(true);
+            int selectedRow = iv.getAngajatiTable().getSelectedRow();
+            int selectedID = (int) iv.getAngajatiTable().getValueAt(selectedRow, 0);
+            for (int i = 0; i < 7; i++) {
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                ArrayList<Time> temp = im.getOrarForSpecificAngajatId(selectedID, iv.getZileSaptamaniiLabel()[i].getText());
+                iv.getZileSaptamaniiTF()[i].setText("%s-%s".formatted(sdf.format(temp.getFirst()), sdf.format(temp.getLast())));
+            }
         }
 
         if(e.getSource() == iv.getVeziCerereConcediuButton()) {

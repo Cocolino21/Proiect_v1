@@ -51,7 +51,33 @@ public class BigModel {
         }
     }
 
+    public boolean insertProgramare(int id_pacient, int id_medic, int id_receptioner, java.sql.Date date, java.sql.Time time )
+    {
+        try{
+           /* System.out.println(id_medic);
+            System.out.println(id_receptioner);*/
+            CallableStatement callableStatement = connection.prepareCall(" CALL InsertProgramare(?, ?, ?, ?,?);");
+            callableStatement.setTime(1,time);
+            callableStatement.setDate(2, date);
+            callableStatement.setInt(3, id_medic);
+            callableStatement.setInt(4, id_receptioner);
+            callableStatement.setInt(5, id_pacient);
+            int rowsAffected = callableStatement.executeUpdate();
 
+            if (rowsAffected > 0) {
+                // Successfully inserted
+                return true;
+            } else {
+                // Insertion failed
+                return false;
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
     public ArrayList<Time> getOrarForSpecificAngajatId(int id_angajat, String ziua_saptamanii)
@@ -417,12 +443,6 @@ public class BigModel {
 
 
 
-
-
-
-
-
-
     public String getRezultatFromIdAnaliza(int idAnaliza) // dau push la mihnea
     {
         String temp = new String();
@@ -579,6 +599,31 @@ public class BigModel {
             callableStatement.setDate(2, beginDate);
             callableStatement.setDate(3, endDate);
             callableStatement.setString(4, motiv);
+            int rowsAffected = callableStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                // Successfully inserted
+                return true;
+            } else {
+                // Insertion failed
+                return false;
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public boolean insertInRaportAnaliza(int idPacient, String rezultat,int idAsistent)
+    {
+        try{
+            CallableStatement callableStatement = connection.prepareCall(" CALL InsertInRaportAnaliza(?, ?, ?);");
+            callableStatement.setInt(1, idPacient);
+            callableStatement.setString(2, rezultat);
+            callableStatement.setInt(3, idAsistent);
             int rowsAffected = callableStatement.executeUpdate();
 
             if (rowsAffected > 0) {

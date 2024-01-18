@@ -8,6 +8,8 @@ import org.jdesktop.swingx.prompt.PromptSupport;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -99,7 +101,7 @@ public class InspectorView extends BasicView {
             orarPanel.add(zileSaptamaniiTF[i], "span");
         }
         orarFrame.setContentPane(orarPanel);
-        orarFrame.setPreferredSize(new Dimension(200, 600));
+        orarFrame.setPreferredSize(new Dimension(200, 500));
         orarFrame.pack();
         orarFrame.setLocationRelativeTo(null);
         orarFrame.setResizable(false);
@@ -155,6 +157,7 @@ public class InspectorView extends BasicView {
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
     }
+
 
 
     @Override
@@ -230,6 +233,10 @@ public class InspectorView extends BasicView {
         {
             personalizeazaServiciiForMedicCB.addItem(s);
         }
+    }
+
+    public JLabel[] getZileSaptamaniiLabel() {
+        return zileSaptamaniiLabel;
     }
 
     public void buidServiciiJFrame()
@@ -359,4 +366,5 @@ public class InspectorView extends BasicView {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    public JTextField[] getZileSaptamaniiTF() { return zileSaptamaniiTF; }
 }

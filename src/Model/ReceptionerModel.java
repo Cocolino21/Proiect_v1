@@ -41,34 +41,6 @@ public class ReceptionerModel extends BigModel{
         }
     }
 
-    public boolean insertProgramare(int id_pacient, int id_medic, int id_receptioner, java.sql.Date date, java.sql.Time time )
-    {
-        try{
-           /* System.out.println(id_medic);
-            System.out.println(id_receptioner);*/
-            CallableStatement callableStatement = connection.prepareCall(" CALL InsertProgramare(?, ?, ?, ?,?);");
-            callableStatement.setTime(1,time);
-            callableStatement.setDate(2, date);
-            callableStatement.setInt(3, id_medic);
-            callableStatement.setInt(4, id_receptioner);
-            callableStatement.setInt(5, id_pacient);
-            int rowsAffected = callableStatement.executeUpdate();
-
-            if (rowsAffected > 0) {
-                // Successfully inserted
-                return true;
-            } else {
-                // Insertion failed
-                return false;
-            }
-        }
-        catch(SQLException e)
-        {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
 
     public int getPretServiciuForServiciuIdAndMedic(int id_serviciu, int id_medic)
     {

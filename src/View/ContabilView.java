@@ -295,6 +295,22 @@ public class ContabilView extends BasicView{
     }
     public JTextField getSalarAngajatTF() {  return salarAngajatTF;   }
 
+    public JComboBox<String> getProfitSpecialitateLunaCB() {
+        return profitSpecialitateLunaCB;
+    }
+
+    public JButton getVeziProfitCentruButton() {
+        return veziProfitCentruButton;
+    }
+
+    public JButton getVeziProfitMedicButton() {
+        return veziProfitMedicButton;
+    }
+
+    public JButton getVeziProfitSpecialitateButton() {
+        return veziProfitSpecialitateButton;
+    }
+
 }
 
 

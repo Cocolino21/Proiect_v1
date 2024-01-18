@@ -1,6 +1,8 @@
 package Model;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class InspectorModel extends BigModel{
     private Connection connection;
@@ -42,6 +44,5 @@ public class InspectorModel extends BigModel{
             return null;
         }
     }
-
 
 }

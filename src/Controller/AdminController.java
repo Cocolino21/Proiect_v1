@@ -23,6 +23,8 @@ public class AdminController extends BasicController implements ActionListener {
         super(view, model);
         av = (AdminView) view;
         am = (AdminModel) model;
+        av.setAngajatiRowData(am.getAngajati(am.getCurrentAngajat().getId_centru()));
+        av.reAddToBV_RP_m1Panel();
         av.getAdaugaAngajatButton().addActionListener(this);
         av.getModificaAngajatButton().addActionListener(this);
         av.getStergeAngajatButton().addActionListener(this);
