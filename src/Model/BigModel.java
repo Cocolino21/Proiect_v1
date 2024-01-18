@@ -1,11 +1,13 @@
 package Model;
 import Controller.HashIt;
+import com.mysql.cj.protocol.a.LocalDateTimeValueEncoder;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -108,7 +110,52 @@ public class BigModel {
         }
     }
 
+    public LocalDate getConcediuBegin(int idAngajat){
+        try {
+            String query = "SELECT * FROM `proiect_v1`.`concediu` WHERE `id_angajat` = ?";
 
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idAngajat);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            LocalDate now = LocalDate.now();
+            LocalDate minim = LocalDate.parse("9999-12-23");
+            while (resultSet.next()){
+                if( resultSet.getDate("data_inceput").toLocalDate().isAfter(now)){
+                    if( resultSet.getDate("data_inceput").toLocalDate().isBefore(minim)){
+                        minim = resultSet.getDate("data_inceput").toLocalDate();
+                    }
+                }
+            }
+            return minim;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return null;
+        }
+    }
+    public LocalDate getConcediuEnd(int idAngajat){
+        try {
+            String query = "SELECT * FROM `proiect_v1`.`concediu` WHERE `id_angajat` = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idAngajat);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            LocalDate now = LocalDate.now();
+            LocalDate minim = LocalDate.parse("9999-12-23");
+            LocalDate minimEnd = LocalDate.parse("9999-12-04");
+            while (resultSet.next()){
+                if( resultSet.getDate("data_inceput").toLocalDate().isAfter(now)){
+                    if( resultSet.getDate("data_inceput").toLocalDate().isBefore(minim)){
+                        minim = resultSet.getDate("data_inceput").toLocalDate();
+                        minimEnd = resultSet.getDate("data_sfarsit").toLocalDate();
+                    }
+                }
+            }
+            return minimEnd;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as per your requirement
+            return null;
+        }
+    }
 
     public Object[][] getAngajati(int centru_id)
     {

@@ -14,6 +14,19 @@ public class MedicModel extends BigModel{
             se.printStackTrace();
         }
     }
+public class BonFiscal{
+        public int idMedic;
+        public int sumaIncasata;
+        public LocalDate data;
+        public int idBon;
+
+    public BonFiscal(int idMedic, int sumaIncasata, LocalDate data, int idBon) {
+        this.idMedic = idMedic;
+        this.sumaIncasata = sumaIncasata;
+        this.data = data;
+        this.idBon = idBon;
+    }
+}
 
     public class RaportEntry {
         public int idRaport;
@@ -36,11 +49,57 @@ public class MedicModel extends BigModel{
             this.diagnostic = diagnostic;
             this.dataCompletare = dataCompletare;
         }
-
-
     }
 
+    public int getProfitPeLuna(int idMedic, String data, String an){
+        int nrBonuri = 0;
+        Object[][] entries;
+        try{
+            CallableStatement callableStatement = connection.prepareCall("SELECT * FROM profituri_medic WHERE id_medic = ?");
+            callableStatement.setInt(1, idMedic);
+            callableStatement.execute();
 
+            ArrayList<BonFiscal> bonFiscalArrayList = new ArrayList<>();
+            ResultSet resultSet = callableStatement.getResultSet();
+
+            while (resultSet.next()){
+                BonFiscal bonFiscal = new BonFiscal(resultSet.getInt("id_medic"), resultSet.getInt("suma_incasata"), resultSet.getDate("data").toLocalDate(), resultSet.getInt("id_bon"));
+                bonFiscalArrayList.add(bonFiscal);
+            }
+            int rowCount = bonFiscalArrayList.size();
+            entries = new Object[rowCount][4];
+            int suma = 0;
+            int luna;
+            int k=0;
+            luna = switch (data) {
+                case "Ianuarie" -> 1;
+                case "Februarie" -> 2;
+                case "Martie" -> 3;
+                case "Aprilie" -> 4;
+                case "Mai" -> 5;
+                case "Iunie" -> 6;
+                case "Iulie" -> 7;
+                case "August" -> 8;
+                case "Septembrie" -> 9;
+                case "Octombrie" -> 10;
+                case "Noiembrie" -> 11;
+                case "Decembrie" -> 12;
+                default -> 1;
+            };
+            for(BonFiscal e :bonFiscalArrayList){
+                if(e.data.getMonthValue() == luna&& e.data.getYear() == Integer.parseInt(an)){
+                entries[k][0] = e.idMedic;
+                entries[k][1] = e.sumaIncasata;
+                entries[k][2] = e.data;
+                entries[k][3] = e.idBon;
+                suma+=e.sumaIncasata;
+                }
+            }
+            return suma;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public Object[][] getIstoricRapoarteForMedic(int idPacient) {
         Object[][] entries;
         try {
@@ -72,20 +131,12 @@ public class MedicModel extends BigModel{
                 k++;
             }
 
-
-
             return entries;
         } catch (SQLException e) {
             e.printStackTrace(); // Handle or log the exception as per your requirement
             return null;
         }
     }
-
-
-
-
-
-
 
     public boolean insertRaport(int id_raport, int id_pacient, int id_asistent, String recomandari, String istoric_relev, String diagnostic, java.sql.Date dataCompletare, ArrayList<Integer> id_investigatii)
     {
