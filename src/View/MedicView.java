@@ -16,6 +16,7 @@ import java.util.*;
 import Model.AuthCheck;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.prompt.PromptSupport;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -92,6 +93,15 @@ public class MedicView extends BasicView {
         private JScrollPane serviciiAdaugateSP;
         private JButton adaugaServiciuButton;
 
+///////////// profit in m2
+        private JButton afiseazaVeziProfitButton;
+        private JFrame veziProfitFrame;
+        private JPanel veziProfitPanel;
+        private JTextField veziProfitTF;
+        private JComboBox<String> veziProfitAlegeLunaCB;
+        private JButton veziProfitButton;
+        private JTextField profitTF;
+    /////////////
         @Override
         public void reAddToBV_RP_m3Panel()
         {
@@ -129,9 +139,40 @@ public class MedicView extends BasicView {
             buildIstoricFrame();
 
             buildInvestigatiiFrame();
-
+            buildProfitFrame();
         }
+    @Override
+    public void reAddToBV_RP_m2Panel()
+    {
+        BV_rightPanel.removeAll();
+        BV_RP_m2Panel.setPreferredSize(new Dimension(720,520));
+        BV_rightPanel.add(BV_RP_m2Panel,"gapx 10");
+        BV_RP_m2Panel.add(afiseazaVeziProfitButton);
+        this.getContentPane().revalidate();
+        this.getContentPane().repaint();
+    }
+    public void buildProfitFrame(){
+         afiseazaVeziProfitButton = new JButton("Vezi profit");
+         veziProfitFrame = new JFrame("Profit");
+         veziProfitPanel = new JPanel(new FlowLayout());
+         veziProfitTF = new JTextField();
+         PromptSupport.setPrompt("Anul", veziProfitTF);
+         veziProfitAlegeLunaCB = new JComboBox<String>();
+         veziProfitButton = new JButton("Afiseaza profit");
+         profitTF = new JTextField();
+         profitTF.setEditable(false);
 
+        veziProfitPanel.add(veziProfitTF);
+        veziProfitPanel.add(veziProfitAlegeLunaCB);
+        veziProfitPanel.add(veziProfitButton, "span");
+        veziProfitPanel.add(profitTF);
+        replaceComboBoxItems_veziProfitCB();
+        veziProfitFrame.setContentPane(veziProfitPanel);
+        veziProfitFrame.setPreferredSize(new Dimension(350, 100));
+        veziProfitFrame.pack();
+        veziProfitFrame.setLocationRelativeTo(null);
+        veziProfitFrame.setResizable(false);
+    }
     public void buildInvestigatiiFrame()
     {
         investigatiiFrame = new JFrame("Investigatii");
@@ -154,6 +195,14 @@ public class MedicView extends BasicView {
         investigatiiFrame.setResizable(false);
     }
 
+    public void replaceComboBoxItems_veziProfitCB(){
+        veziProfitAlegeLunaCB.removeAll();
+        String[] luniileAnului = new String[]{"Ianuarie","Februarie","Martie","Aprilie","Mai","Iunie","Iulie","August","Septembrie","Octombrie","Noiembrie","Decembrie"};
+
+        for(String s: luniileAnului){
+            veziProfitAlegeLunaCB.addItem(s);
+        }
+    }
     public void setDetaliiRaportServiciiEfectuateArray(ArrayList<String> x)
     {
         detaliiRaportServiciiEfectuateArray = new ArrayList<JLabel>();
@@ -301,6 +350,29 @@ public class MedicView extends BasicView {
         }
     }
 
+    public void setProfitTF(int profitTF) {
+        this.profitTF.setText(String.valueOf(profitTF));
+    }
+
+    public JButton getAfiseazaVeziProfitButton() {
+        return afiseazaVeziProfitButton;
+    }
+
+    public JFrame getVeziProfitFrame() {
+        return veziProfitFrame;
+    }
+
+    public JTextField getVeziProfitTF() {
+        return veziProfitTF;
+    }
+
+    public JComboBox<String> getVeziProfitAlegeLunaCB() {
+        return veziProfitAlegeLunaCB;
+    }
+
+    public JButton getVeziProfitButton() {
+        return veziProfitButton;
+    }
 
     public JList<String> getSeriviciiAdaugateList() {
         return seriviciiAdaugateList;

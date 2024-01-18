@@ -38,21 +38,24 @@ public class MedicController extends BasicController implements ActionListener {
         mv.getVeziRaportButton().addActionListener(this);
         mv.getAdaugaServiciuButton().addActionListener(this);
         mv.getSubmitButton().addActionListener(this);
+        mv.getAfiseazaVeziProfitButton().addActionListener(this);
+        mv.getVeziProfitButton().addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         super.actionPerformed(e);
+        if(e.getSource() == mv.getAfiseazaVeziProfitButton())
+        {
+            mv.getVeziProfitFrame().setVisible(true);
+        }
+        if(e.getSource() == mv.getVeziProfitButton())
+        {
+            int suma = mm.getProfitPeLuna(mm.getCurrentAngajat().getId(), mv.getVeziProfitAlegeLunaCB().toString());
+            mv.setProfitTF(suma);
+        }
 
         if (e.getSource() == mv.getRaportButton()) {
-
-
-          /*  for(String s : mm.getAngajatiNumePrenumeFromFunctieAndCentru("asistent_medical",mm.getCurrentAngajat().getId_centru()))
-            {
-                System.out.println(s);
-            }
-            System.out.println("2323");*/
-
             mv.replaceAsistentMedicalCB(mm.getAngajatiNumePrenumeFromFunctieAndCentru("asistent_medical",mm.getCurrentAngajat().getId_centru()));
             mv.getRaportFrame().setVisible(true);
         }
@@ -67,8 +70,6 @@ public class MedicController extends BasicController implements ActionListener {
                 mv.updateIstoricTable();
                 mv.buildIstoricFrame();
                 mv.getIstoricFrame().setVisible(true);
-
-
             }
 
         }

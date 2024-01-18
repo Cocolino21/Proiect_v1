@@ -117,7 +117,6 @@ public class BasicView extends JFrame {
     public void reAddToBV_RP_m2Panel()
     {
 
-
         BV_RP_m2Panel.setPreferredSize(new Dimension(720,520));
         BV_rightPanel.removeAll();
         BV_rightPanel.add(BV_RP_m2Panel,"gapx 10");
@@ -197,7 +196,6 @@ public class BasicView extends JFrame {
         BV_salariiLuniSP.setAutoscrolls(true);
         BV_salariiLuniSP.setPreferredSize(new Dimension(675,370));
         BV_RP_m2Panel.add(BV_salariiLuniSP,"gapy 20, span");
-
 
 
         BV_profileImageButton = new JButton();
