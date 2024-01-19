@@ -8,7 +8,6 @@ import org.jdesktop.swingx.prompt.PromptSupport;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class AdminView extends BasicView{
@@ -36,7 +35,7 @@ public class AdminView extends BasicView{
     private JTextField aajf_titluStiintificTF;
     private JTextField aajf_postDidacticTF;
 
-///////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////
     public AdminView(CurrentAngajat currentAngajat) {
         super("Admin View", currentAngajat);
 
@@ -63,7 +62,6 @@ public class AdminView extends BasicView{
         adminM1Panel.add(stergeAngajatButton, "span");
         updateAngajatiTable();
         adminM1Panel.add(angajatiSP);
-
 
         BV_RP_m1Panel.removeAll();
         BV_RP_m1Panel.add(adminM1Panel);
@@ -197,7 +195,6 @@ public class AdminView extends BasicView{
     public JTextField getSelectCentruTF() {
         return selectCentruTF;
     }
-
 
     public void showErrorMessage(String message)
     {

@@ -9,7 +9,7 @@ public class AuthCheck extends BigModel{
 
     public AuthCheck() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "");
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proiect_v1", "root", "*DaniPeNet_1");
         } catch(SQLException se) {
             se.printStackTrace();
         }
@@ -27,7 +27,7 @@ public class AuthCheck extends BigModel{
                 return 0;
             case "medic":
                 return 1;
-            case "receptioner":
+            case "recepționer":
                 return 2;
             case "financiar_contabil":
                 return 3;

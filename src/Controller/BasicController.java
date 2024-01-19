@@ -45,7 +45,7 @@ public class BasicController extends BigController implements ActionListener {
         }
         if(e.getSource()==mv.getBV_m1Button())
         {
-            if(!(mm.getCurrentAngajat().getFunctie().equals("inspector_resurse_um"))) {
+
                 for (int i = 0; i < 7; i++) {
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
                     ArrayList<Time> temp = mm.getOrarForSpecificAngajatId(mm.getCurrentAngajat().getId(), mv.getBV_orar()[i].getText());
@@ -55,7 +55,7 @@ public class BasicController extends BigController implements ActionListener {
 
                 mv.getBV_concediuActivBegin().setText(mm.getConcediuBegin(mm.getCurrentAngajat().getId()).toString());
                 mv.getBV_concediuActivEnd().setText(mm.getConcediuEnd(mm.getCurrentAngajat().getId()).toString());
-            }
+
             mv.reAddToBV_RP_m1Panel();
         }
         if(e.getSource()==mv.getBV_creeazaCerereConcediuButton())
