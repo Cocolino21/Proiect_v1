@@ -66,7 +66,7 @@ public class ContabilController extends BasicController implements ActionListene
 
         if(e.getSource() == cv.getVeziProfitMedicButton()){
             int idAngajat = cm.getIdAngajatFromNumePrenume(cv.getAngajatCB().getSelectedItem().toString());
-            int suma = cm.getProfitPeLunaPentruAngajat(idAngajat, cv.getProfitMedicLunaCB().getSelectedItem().toString(), cv.getProfitMedicAnTF().getSelectedText()  );
+            int suma = cm.getProfitPeLunaCentru( cv.getProfitMedicLunaCB().getSelectedItem().toString(), cv.getProfitMedicAnTF().getText()  );
             cv.setProfitMedicTF(suma);
         }
 

@@ -81,14 +81,14 @@ public class ContabilModel extends BigModel{
         int nrBonuri = 0;
         Object[][] entries;
         try{
-            CallableStatement callableStatement = connection.prepareCall("SELECT * FROM bonurifiscale");
+            CallableStatement callableStatement = connection.prepareCall("SELECT * FROM venitlunartotal");
             callableStatement.execute();
 
             ArrayList<BonFiscal> bonFiscalArrayList = new ArrayList<>();
             ResultSet resultSet = callableStatement.getResultSet();
 
             while (resultSet.next()){
-                BonFiscal bonFiscal = new BonFiscal(resultSet.getInt("id_medic"), resultSet.getInt("suma_incasata"), resultSet.getDate("data").toLocalDate(), resultSet.getInt("id_bon"));
+                BonFiscal bonFiscal = new BonFiscal(-4, resultSet.getInt("suma"), resultSet.getDate("an_luna_zi").toLocalDate(), -1);
                 bonFiscalArrayList.add(bonFiscal);
             }
             int rowCount = bonFiscalArrayList.size();
@@ -120,6 +120,7 @@ public class ContabilModel extends BigModel{
                     suma+=e.sumaIncasata;
                 }
             }
+            System.out.println(suma);
             return suma;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -273,6 +274,7 @@ public class ContabilModel extends BigModel{
                     ResultSet resultSet2 = callableStatement2.executeQuery();
                     suma += resultSet2.getInt("suma_platita");
                 }
+                System.out.println(suma);
             }
 
         } catch(SQLException e) {
